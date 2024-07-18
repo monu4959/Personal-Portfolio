@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohan's Portfolio Website</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/03360b51e1.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="header">
+        <div class="container">
+            <nav>
+                <img src="images/3.png" class="logo">
+                <ul id="sidemenu">
+                    <li><a href="#header">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#projects">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <i class="fa-solid fa-xmark" onclick="closemenu()"></i>
+
+                </ul>
+                <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+            </nav>
+            <div class="header-text">
+                <p></p>
+                <h1>Hello, this is <span>Rohan</span></h1>
+            </div>
+        </div>
+    </div>
+    <!-- --------About------- -->
+<div id="about">
+    <div class="container">
+        <div class="row">
+            <div class="about-col-1">
+                <!-- <img src="images/4.jpg" width="500" height="600"> -->
+                <img src="images/13.jpg">
+            </div>
+            <div class="about-col-2">
+                <h1 class="sub-title">About Me</h1>
+                <P>
+                    hi i am Rohan Reddy Kolla, a dedicated AI developer with a relentless passion
+                    for harnessing advanced technologies to address real-world challanges. With expertise
+                    in Python i craft intelligent systems that push the boundaries of innovation.
+                    Continuous learning is my driving force, keeping me at the cutting edge of AI advancements.
+                    Let's collaborate to transform your ideas into impactful, intelligent realities together.
+
+                </P>
+                <div class="tab-titles">
+                    <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                    <p class="tab-links" onclick="opentab('education')">Education</p>
+                    <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                </div>
+                <div class="tab-contents active-tab" id="skills">
+                    <ul>
+                        <li><span>Machine Learning</span><br>Used a few libraries to make prediction models</li><br>
+                        <li><span>Deep learning and Reinforcement learning</span><br>used these concepts in many of my projects</li><br>
+                        <li><span>Data science and Data analysis</span><br>Curated and analyzed datasets to extract meaningful insights and patterns.</li><br>
+                        <li><span>UI/UX</span><br>Designed intuitive and visually appealing web/app interfaces.</li><br>
+                        <li><span>Languages</span><br>Familiar with Python, C, C++, Java, HTML, CSS, java script, and a little idea in devops(azure,terraform)</li><br>
+
+
+                    </ul>
+                </div>
+                <div class="tab-contents" id="education">
+                    <ul>
+                        <li><span>mahindra university</span><br>2020-2024<br>7.7</li><br>
+                        <li><span>Fiitjee junior college</span><br>2018-2020<br>87%</li><br>
+                        <li><span>Delpi Public School</span><br>2008-2018<br>87%</li><br>
+                    </ul>
+                </div>
+                <div class="tab-contents" id="experience">
+                    <ul>
+                        <li><span>Random Trees</span><br>AI engineer</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ---------------services-------------------->
+
+<div id="services">
+    <div class="container">
+        <h1 class="sub-title">My Services</h1>
+        <div class="services-list">
+            <div>
+                <h2>Machine Learning Engineer</h2><br>
+                <p>As a machine learning engineer, I specialize in transforming complex data into actionable insights and intelligent solutions. From developing cutting-edge algorithms to deploying scalable machine learning models, I offer a range of services aimed at leveraging data to drive innovation and efficiency. Let's collaborate to harness the power of AI and machine learning, creating robust, data-driven systems that elevate your business and deliver real-world impact.</p>
+                <a href="#">Learn More</a>
+            </div>
+             <div>
+                <h2>Data Scientist/Analyst</h2><br>
+                <p>As a machine learning engineer, I specialize in transforming complex data into actionable insights and intelligent solutions. From developing cutting-edge algorithms to deploying scalable machine learning models, I offer a range of services aimed at leveraging data to drive innovation and efficiency. Let's collaborate to harness the power of AI and machine learning, creating robust, data-driven systems that elevate your business and deliver real-world impact.</p>
+                <a href="#">Learn More</a>
+            </div>
+            <div>
+                <h2>Web Design</h2><br>
+                <p>As a frontend developer, I excel in transforming your ideas into visually stunning and interactive user interfaces that engage and resonate. From adaptive web designs to interactive user experiences, I provide a variety of services to enhance your digital presence. Let's work together to craft seamless, attractive, and highly functional digital solutions that make a lasting impact.</p>
+                <a href="#">Learn More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- --------------------portfolio--------------------------- -->
+<div id="projects">
+    <div class="container">
+        <h1 class="sub-title">My Projects</h1>
+        <div class="work-list">
+            <div class="work">
+                <img src="images/7.png">
+                <div class="layer">
+                    <h3>Document Extraction App</h3>
+                    <p>The app lets us extract all the information into json format for better understanding and easy readying
+                    </p>
+                </div>
+            </div>
+            <div class="work">
+                <img src="images/8.png">
+                <div class="layer">
+                    <h3>Neural Architectural Search</h3>
+                    <p>synthesis of neural Architectures using evolutionary algorithms
+                    </p>
+                </div>
+            </div>
+            <div class="work">
+                <img src="images/11.jpg">
+                <div class="layer">
+                    <h3>Malware Analysis</h3>
+                    <p>Analysis, detection, and mitigation of potential threats using deep learning techniques.
+                    </p>
+                </div>
+            </div>
+            <div class="work">
+                <img src="images/12.jpg">
+                <div class="layer">
+                    <h3>Reinforcement Projects</h3>
+                    <p>Designed and implemented reinforcemnt learning projects using Policy optimization to solve complex problems
+                    </p>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="btn">See more</a>
+    </div>
+
+</div>
+ <!-- -----------------------------contact---------------------- -->
+  <div id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="contact-left">
+                <h1 class="sub-title">Contact Me</h1>
+                <p><i class="fa-solid fa-paper-plane"></i>monu4959@gmail.com</p>
+                <p><i class="fa-solid fa-phone"></i>+919949564646</p>
+                <div class="social-icons">
+                    <a href="www.linkedin.com/in/rohan-reddy-kolla"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://github.com/monu4959?tab=repositories"><i class="fa-brands fa-github"></i></a>
+                    <a href=""><i class="fa-solid fa-envelope"></i></a>
+                </div>
+                <a href="images/Rohan_Resume.pdf" download class="btn btn2" role="button">Download Resume</a>
+                <!-- <a href="images/K.Rohan_Reddy_Resume.pdf" download class="btn btn-info" role="button">Link Button</a> -->
+
+            </div>
+            <div class="contact-right">
+                <form name="submit-to-google-sheet">
+                    <input type="text" name="Name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email"required>
+                    <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
+                    <button type="submit" class="btn btn2">Submit</button>
+                </form>
+                <span id="msg"></span>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<script>
+    var tablinks = document.getElementsByClassName("tab-links");
+    var tabcontents = document.getElementsByClassName("tab-contents");
+
+    function opentab(tabname){
+        for(tablink of tablinks){
+            tablink.classList.remove("active-link");
+        }
+        for(tabcontent of tabcontents){
+            tabcontent.classList.remove("active-tab");
+        }
+        for(tabcontent of tabcontents){
+            tabcontent.classList
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+}
+</script>
+<script>
+    var sidemeu = document.getElementById("sidemenu");
+
+    function openmenu(){
+        sidemeu.style.right = "0";
+    }
+    function closemenu(){
+        sidemeu.style.right = "-200px";
+    }
+</script>
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyHsLMkoeyklV3OCjlrJWSk50AqPY7vy_-KGep6OLOt6IKaV_uyIEeu9IXm6m_zZcFqEg/exec'
+    const form = document.forms['submit-to-google-sheet']
+    const msg=document.getElementById("msg")
+  
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+            msg.innerHTML = "Message sent successfully"
+            setTimeout(function(){
+                msg.innerHTML = ""
+            },5000)
+            form.reset()
+        })
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
+    
+</body>
+</html>
