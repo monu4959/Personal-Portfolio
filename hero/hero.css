@@ -1,0 +1,471 @@
+/* ---------------- RK-01 retro hero ---------------- */
+:root {
+    --rk-pink: #ff4fd8;
+    --rk-purple: #7a4dff;
+    --rk-ink: #1a0630;
+    --rk-pixel: "Press Start 2P", ui-monospace, monospace;
+}
+
+#header.rk-hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--rk-ink);
+    isolation: isolate;
+}
+
+.rk-bg {
+    position: absolute;
+    inset: -24px;
+    z-index: -2;
+    background-color: var(--rk-ink);
+    background-image: url('/images/retro-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    transform: translate3d(calc(var(--px, 0) * -10px), calc(var(--py, 0) * -6px), 0);
+    transition: transform 0.8s cubic-bezier(.2, .7, .2, 1);
+}
+
+/* fade into the dark page below */
+#header.rk-hero::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 14%;
+    z-index: -1;
+    background: linear-gradient(to bottom, rgba(8, 8, 8, 0), #080808);
+    pointer-events: none;
+}
+
+.rk-stars {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+.rk-stars span {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    box-shadow: 0 0 4px #ffd6fb;
+    opacity: 0.2;
+    animation: rk-twinkle 4s ease-in-out infinite;
+}
+.rk-stars span.big {
+    width: 3px;
+    height: 3px;
+}
+@keyframes rk-twinkle {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.85; }
+}
+
+/* ---------------- nav, retro restyle ---------------- */
+#header.rk-hero .container {
+    position: relative;
+    z-index: 5;
+}
+#header.rk-hero nav ul li a {
+    font-family: var(--rk-pixel);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 0 rgba(58, 11, 82, 0.9);
+    transition: color 0.2s, text-shadow 0.2s;
+}
+#header.rk-hero nav ul li a::after {
+    height: 3px;
+    background: var(--rk-pink);
+    box-shadow: 0 0 8px var(--rk-pink);
+}
+#header.rk-hero nav ul li a:hover,
+#header.rk-hero nav ul li a:focus-visible {
+    color: #ffe3f8;
+    text-shadow: 0 0 6px var(--rk-pink), 0 2px 0 rgba(58, 11, 82, 0.9);
+}
+#header.rk-hero nav ul li a:focus-visible {
+    outline: 2px dashed var(--rk-pink);
+    outline-offset: 6px;
+}
+/* text wordmark in place of the old logo image */
+.rk-logo {
+    font-family: var(--rk-pixel);
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 4px;
+    text-shadow: 3px 3px 0 #3a0b52, 0 0 14px rgba(255, 79, 216, 0.6);
+    transition: color 0.2s, text-shadow 0.2s;
+}
+.rk-logo:hover,
+.rk-logo:focus-visible {
+    color: #ffe3f8;
+    text-shadow: 3px 3px 0 #3a0b52, 0 0 22px rgba(255, 79, 216, 0.9);
+}
+@media only screen and (max-width: 600px) {
+    .rk-logo {
+        font-size: 16px;
+    }
+}
+#header.rk-hero nav .fa-solid {
+    color: #fff;
+}
+
+/* ---------------- stage ---------------- */
+.rk-stage {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    container-type: size;
+}
+/* while a game runs, swipes on the console steer instead of scrolling */
+.rk-hero[data-game="playing"] .rk-stage {
+    touch-action: none;
+}
+.rk-gl {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+.is-ready .rk-gl {
+    opacity: 1;
+}
+.rk-loading {
+    font-family: var(--rk-pixel);
+    font-size: 12px;
+    color: #ffe3f8;
+    text-shadow: 0 0 8px var(--rk-pink);
+    animation: rk-blink 1s steps(2, start) infinite;
+}
+.is-ready .rk-loading {
+    display: none;
+}
+@keyframes rk-blink {
+    to { visibility: hidden; }
+}
+
+.rk-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---------------- hint + scroll indicator ---------------- */
+.rk-hud {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 16px 22px;
+    text-align: center;
+}
+.rk-hint {
+    font-family: var(--rk-pixel);
+    font-size: 9px;
+    line-height: 1.6;
+    color: rgba(255, 230, 250, 0.8);
+    text-shadow: 0 2px 0 rgba(26, 6, 48, 0.9);
+}
+.rk-hint span {
+    display: none;
+    font-family: inherit;
+}
+/* one line at a time: mouse vs touch, idle vs in-game */
+.rk-hero:not(.is-touch):not([data-game="playing"]):not([data-game="paused"]) .rk-hint .mouse.idle,
+.rk-hero:not(.is-touch)[data-game="playing"] .rk-hint .mouse.playing,
+.rk-hero:not(.is-touch)[data-game="paused"] .rk-hint .mouse.playing,
+.rk-hero.is-touch:not([data-game="playing"]):not([data-game="paused"]) .rk-hint .touch.idle,
+.rk-hero.is-touch[data-game="playing"] .rk-hint .touch.playing,
+.rk-hero.is-touch[data-game="paused"] .rk-hint .touch.playing {
+    display: inline;
+}
+
+.rk-scroll {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--rk-pixel);
+    font-size: 10px;
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border: 2px solid rgba(255, 79, 216, 0.7);
+    background: rgba(26, 6, 48, 0.55);
+    box-shadow: 0 0 12px rgba(255, 79, 216, 0.35), inset 0 0 0 2px rgba(26, 6, 48, 0.6);
+    transition: background 0.2s, color 0.2s;
+}
+.rk-scroll:hover,
+.rk-scroll:focus-visible {
+    background: var(--rk-pink);
+    color: var(--rk-ink);
+}
+.rk-scroll .arrow {
+    font-family: inherit;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid currentColor;
+    animation: rk-bob 1.4s ease-in-out infinite;
+}
+@keyframes rk-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+}
+
+/* ---------------- CSS-3D fallback console ---------------- */
+.cc {
+    --u: min(calc(92cqh / 5.2), calc(88cqw / 3.1));
+    position: relative;
+    width: calc(var(--u) * 3.1);
+    height: calc(var(--u) * 5.2);
+    perspective: calc(var(--u) * 22);
+    animation: rk-float 4.6s ease-in-out infinite;
+}
+.cc.is-paused,
+.cc.is-paused * {
+    animation-play-state: paused;
+}
+@keyframes rk-float {
+    0%, 100% { transform: translateY(calc(var(--u) * -0.07)); }
+    50% { transform: translateY(calc(var(--u) * 0.07)); }
+}
+.cc-tilt {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 0.35s ease-out;
+}
+.cc-body {
+    position: absolute;
+    inset: 0;
+    border-radius: calc(var(--u) * 0.28);
+    transform-style: preserve-3d;
+    background:
+        radial-gradient(120% 60% at 20% 0%, rgba(255, 255, 255, 0.55), transparent 60%),
+        linear-gradient(150deg, rgba(238, 241, 249, 0.9), rgba(204, 211, 226, 0.82));
+    box-shadow:
+        inset 0 0 0 calc(var(--u) * 0.02) rgba(255, 255, 255, 0.7),
+        inset 0 calc(var(--u) * -0.08) calc(var(--u) * 0.16) rgba(80, 60, 120, 0.25),
+        calc(var(--u) * -0.06) 0 calc(var(--u) * 0.3) rgba(255, 63, 180, 0.45),
+        calc(var(--u) * 0.06) 0 calc(var(--u) * 0.3) rgba(122, 77, 255, 0.45),
+        0 calc(var(--u) * 0.3) calc(var(--u) * 0.6) rgba(20, 0, 40, 0.5);
+}
+/* body thickness */
+.cc-body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(150deg, #b9bfd0, #8d93a8);
+    transform: translateZ(calc(var(--u) * -0.3));
+}
+.cc-pcb {
+    position: absolute;
+    inset: calc(var(--u) * 0.17);
+    border-radius: calc(var(--u) * 0.16);
+    opacity: 0.35;
+    background:
+        linear-gradient(rgba(60, 64, 76, 0.8), rgba(60, 64, 76, 0.8)) 58% 66% / calc(var(--u) * 0.36) calc(var(--u) * 0.36) no-repeat,
+        repeating-linear-gradient(90deg, transparent 0 calc(var(--u) * 0.2), rgba(110, 120, 145, 0.7) calc(var(--u) * 0.2) calc(var(--u) * 0.21)),
+        repeating-linear-gradient(0deg, transparent 0 calc(var(--u) * 0.3), rgba(110, 120, 145, 0.6) calc(var(--u) * 0.3) calc(var(--u) * 0.31));
+}
+.cc-part {
+    position: absolute;
+    left: calc((var(--x) + 1.55 - var(--w) / 2) * var(--u));
+    top: calc((2.6 - var(--y) - var(--h) / 2) * var(--u));
+    width: calc(var(--w) * var(--u));
+    height: calc(var(--h) * var(--u));
+    /* lift every part off the body plane so 3D paint order and hit-testing stay unambiguous when tilted */
+    transform: translateZ(calc(var(--u) * 0.015));
+}
+.cc button {
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.cc button:focus-visible {
+    outline: 2px dashed var(--rk-pink);
+    outline-offset: 2px;
+}
+.cc-bezel {
+    background: #dfe3ea;
+    border-radius: calc(var(--u) * 0.14);
+    box-shadow: inset 0 1px 0 #fff, 0 calc(var(--u) * 0.02) calc(var(--u) * 0.05) rgba(0, 0, 0, 0.25);
+    transform: translateZ(calc(var(--u) * 0.04));
+}
+.cc-led {
+    position: absolute;
+    left: calc(var(--u) * 0.175);
+    top: calc(var(--u) * 0.78);
+    width: calc(var(--u) * 0.09);
+    height: calc(var(--u) * 0.09);
+    border-radius: 50%;
+    background: #ff2a4d;
+    box-shadow: 0 0 calc(var(--u) * 0.08) #ff2a4d;
+}
+.cc-power {
+    position: absolute;
+    left: calc(var(--u) * 0.1);
+    top: calc(var(--u) * 0.92);
+    font-family: var(--rk-pixel);
+    font-size: calc(var(--u) * 0.05);
+    color: #6b6f7c;
+}
+.cc-well {
+    background: #0e1012;
+    border-radius: calc(var(--u) * 0.04);
+    padding: calc(var(--u) * 0.03);
+    transform: translateZ(calc(var(--u) * 0.045));
+}
+.cc-well canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.cc-brand {
+    font-family: var(--rk-pixel);
+    font-size: calc(var(--u) * 0.2);
+    line-height: 1;
+    color: #3a3152;
+    white-space: nowrap;
+}
+.cc-brand em {
+    font-family: inherit;
+    font-size: calc(var(--u) * 0.12);
+    color: #d6337f;
+}
+.cc-dpad {
+    border-radius: 50%;
+    background: rgba(150, 158, 175, 0.45);
+    transform: translateZ(calc(var(--u) * 0.03));
+}
+.cc-d,
+.cc-d-center {
+    position: absolute;
+    background: #17181c;
+    box-shadow: 0 calc(var(--u) * 0.03) 0 #050506;
+    transition: transform 0.08s, background 0.08s;
+}
+.cc-d.up, .cc-d.down { left: calc(50% - var(--u) * 0.115); width: calc(var(--u) * 0.23); height: calc(var(--u) * 0.23); }
+.cc-d.left, .cc-d.right { top: calc(50% - var(--u) * 0.115); width: calc(var(--u) * 0.23); height: calc(var(--u) * 0.23); }
+.cc-d.up { top: calc(50% - var(--u) * 0.34); border-radius: calc(var(--u) * 0.04) calc(var(--u) * 0.04) 0 0; }
+.cc-d.down { top: calc(50% + var(--u) * 0.11); border-radius: 0 0 calc(var(--u) * 0.04) calc(var(--u) * 0.04); }
+.cc-d.left { left: calc(50% - var(--u) * 0.34); border-radius: calc(var(--u) * 0.04) 0 0 calc(var(--u) * 0.04); }
+.cc-d.right { left: calc(50% + var(--u) * 0.11); border-radius: 0 calc(var(--u) * 0.04) calc(var(--u) * 0.04) 0; }
+.cc-d-center {
+    left: calc(50% - var(--u) * 0.116);
+    top: calc(50% - var(--u) * 0.116);
+    width: calc(var(--u) * 0.232);
+    height: calc(var(--u) * 0.232);
+    pointer-events: none;
+    background: radial-gradient(circle, #0b0b0d 0 calc(var(--u) * 0.055), #17181c calc(var(--u) * 0.06));
+}
+.cc-d:active, .cc-d.is-pressed {
+    background: #2a2b31;
+    box-shadow: 0 calc(var(--u) * 0.01) 0 #050506;
+    transform: translateY(calc(var(--u) * 0.02));
+}
+.cc-abpad {
+    border-radius: calc(var(--u) * 0.28);
+    background: rgba(150, 158, 175, 0.45);
+    transform: translateZ(calc(var(--u) * 0.01)) rotate(-27deg);
+}
+.cc-btn {
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ff7d92, #d8324f 55%, #a81c38);
+    box-shadow: 0 calc(var(--u) * 0.04) 0 #7d1229, 0 calc(var(--u) * 0.06) calc(var(--u) * 0.08) rgba(0, 0, 0, 0.35);
+    transform: translateZ(calc(var(--u) * 0.06));
+    transition: transform 0.08s, box-shadow 0.08s;
+}
+.cc-btn:active, .cc-btn.is-pressed {
+    box-shadow: 0 calc(var(--u) * 0.012) 0 #7d1229, 0 calc(var(--u) * 0.02) calc(var(--u) * 0.04) rgba(0, 0, 0, 0.35);
+    transform: translateZ(calc(var(--u) * 0.06)) translateY(calc(var(--u) * 0.028));
+}
+.cc-pill {
+    border-radius: 999px;
+    background: #2c2e36;
+    box-shadow: 0 calc(var(--u) * 0.02) 0 #0c0c10, 0 0 0 calc(var(--u) * 0.03) rgba(150, 158, 175, 0.45);
+    transform: translateZ(calc(var(--u) * 0.04)) rotate(-25.8deg);
+    transition: transform 0.08s, box-shadow 0.08s;
+}
+.cc-pill:active, .cc-pill.is-pressed {
+    box-shadow: 0 0 0 #0c0c10, 0 0 0 calc(var(--u) * 0.03) rgba(150, 158, 175, 0.45);
+    transform: translateZ(calc(var(--u) * 0.04)) rotate(-25.8deg) translateY(calc(var(--u) * 0.015));
+}
+.cc-label {
+    font-family: var(--rk-pixel);
+    font-size: calc(var(--u) * 0.08);
+    color: #4a4560;
+    text-align: center;
+    pointer-events: none;
+}
+.cc-label.tilted {
+    font-size: calc(var(--u) * 0.06);
+    transform: translateZ(calc(var(--u) * 0.015)) rotate(-25.8deg);
+}
+.cc-speaker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cc-speaker i {
+    width: calc(var(--u) * 0.055);
+    height: calc(var(--u) * 0.56);
+    border-radius: calc(var(--u) * 0.03);
+    background: #24262d;
+    box-shadow: inset 0 calc(var(--u) * 0.01) calc(var(--u) * 0.02) #000;
+    transform: rotate(-25.8deg);
+}
+
+/* ---------------- small screens ---------------- */
+@media only screen and (max-width: 600px) {
+    #header.rk-hero nav ul {
+        background: rgba(26, 6, 48, 0.97);
+        border-left: 3px solid var(--rk-pink);
+    }
+    #header.rk-hero nav ul li a {
+        font-size: 12px;
+    }
+    .rk-hud {
+        padding-bottom: 16px;
+        gap: 10px;
+    }
+}
+
+/* ---------------- reduced motion ---------------- */
+@media (prefers-reduced-motion: reduce) {
+    .rk-bg { transform: none; transition: none; }
+    .rk-stars span { animation: none; opacity: 0.5; }
+    .rk-scroll .arrow, .rk-loading { animation: none; }
+    .cc { animation: none; }
+    .cc-tilt { transform: none; transition: none; }
+    .rk-gl { transition: none; }
+}

@@ -1,0 +1,54 @@
+/* ---------------- Projects: ThreeUI Sylva scene background ---------------- */
+#projects.rk-projects {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 110px 0 70px;
+    /* still of the scene: shows before the live scene mounts, without JavaScript, and if WebGL
+       fails (projects/projects.js makes the scene transparent in that case) */
+    background: #4a4d44 url('/images/sylva-poster.webp') center bottom / cover no-repeat;
+}
+/* ThreeUI paints its wrapper and iframe solid grey; let the still image show through them */
+.rk-sylva .threeui-background,
+.rk-sylva iframe {
+    background: transparent !important;
+}
+.rk-sylva {
+    /* The scene is GPU-heavy at full resolution (it held the page near 30 fps).
+       It renders into a smaller box that is scaled up; the soft, misty scene hides the lower
+       resolution. projects/projects.js picks the factor so the box stays wider than the
+       scene's 900px mobile breakpoint (otherwise it swaps to its narrow layout). */
+    --sylva-res: 0.7;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -2;
+    width: calc(var(--sylva-res) * 100%);
+    height: calc(var(--sylva-res) * 100%);
+    transform: scale(calc(1 / var(--sylva-res)));
+    transform-origin: 0 0;
+}
+@media (max-width: 900px) {
+    /* narrow screens already get the scene's mobile layout, and have 2-3x pixel density */
+    .rk-sylva {
+        --sylva-res: 0.5;
+    }
+}
+/* darken the top and bottom so the section blends with its neighbours and the title stays legible */
+#projects.rk-projects::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, #0a0a0a 0%, rgba(10, 10, 10, 0.35) 22%, rgba(10, 10, 10, 0.1) 55%, rgba(8, 8, 8, 0.75) 100%);
+}
+.rk-projects .sub-title {
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 600px) {
+    #projects.rk-projects {
+        padding: 80px 0 50px;
+    }
+}

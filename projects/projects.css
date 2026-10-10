@@ -1,0 +1,146 @@
+/* ---------------- Projects: infinite project slider ---------------- */
+.pj-intro {
+    margin-top: 10px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+}
+/* full-bleed rows; the section's overflow:hidden clips the 100vw overhang */
+.rk-project-slider {
+    width: 100vw;
+    margin: 32px 0 0 calc(50% - 50vw);
+}
+.pj-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.pj-row {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    padding: 6px 0;
+}
+/* keep the moving track on its own GPU layer so the cards aren't repainted every frame */
+.pj-row > div {
+    will-change: transform;
+}
+.pj-row.is-static {
+    padding: 6px 24px 14px;
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
+.pj-card {
+    flex: 0 0 auto;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 22px;
+    border-radius: 20px;
+    background: rgba(12, 12, 14, 0.84);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    color: #fff;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.pj-card * {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.pj-card:hover {
+    border-color: rgba(249, 103, 251, 0.45);
+    box-shadow: 0 0 30px rgba(249, 103, 251, 0.2), 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+.pj-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+}
+.pj-card .pj-kind {
+    font-family: "Press Start 2P", ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #f967fb;
+}
+.pj-context {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+.pj-title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+.pj-summary {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.72);
+}
+.pj-metric {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.pj-metric strong {
+    font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #f967fb, #19c3ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    white-space: nowrap;
+}
+.pj-metric span {
+    font-size: 12px;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.6);
+}
+.pj-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.pj-tags li {
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* shown until the slider mounts (and without JavaScript) */
+.pj-fallback {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    gap: 10px;
+    list-style: none;
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 600px) {
+    .pj-card {
+        width: 280px;
+        padding: 18px;
+    }
+    .pj-title {
+        font-size: 18px;
+    }
+}
+@media (hover: none) {
+    .pj-intro {
+        display: none;
+    }
+}

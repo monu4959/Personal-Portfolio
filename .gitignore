@@ -1,0 +1,8 @@
+node_modules/
+dist/
+old-resumes/
+# stray files in the project root (notes, screenshots, references); site assets live in public/
+/*.pdf
+/*.avif
+/*.png
+/*.jpg

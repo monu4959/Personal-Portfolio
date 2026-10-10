@@ -1,0 +1,111 @@
+/* ---------------- Services: neon tubes background ---------------- */
+#services.rk-services {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 110px 0 120px;
+    /* static fallback (no WebGL / reduced motion), in the tubes' palette */
+    background:
+        radial-gradient(60% 50% at 20% 30%, rgba(249, 103, 251, 0.18), transparent 70%),
+        radial-gradient(50% 45% at 80% 70%, rgba(105, 88, 213, 0.22), transparent 70%),
+        radial-gradient(40% 35% at 60% 20%, rgba(83, 188, 40, 0.1), transparent 70%),
+        #0a0a0a;
+}
+.rk-tubes {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+}
+.rk-tubes canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.rk-services-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.rk-services .sub-title {
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+}
+.rk-shuffle {
+    font-family: "Press Start 2P", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #fff;
+    background: rgba(10, 10, 10, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    padding: 10px 16px;
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    transition: background 0.3s, color 0.3s;
+}
+.rk-shuffle:hover,
+.rk-shuffle:focus-visible {
+    background: #fff;
+    color: #0a0a0a;
+}
+
+/* glass cards so the tubes glow through without hurting readability */
+.rk-services .services-list > div {
+    background: rgba(10, 10, 10, 0.55);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    transition: transform 0.5s, box-shadow 0.5s, border-color 0.5s;
+}
+.rk-services .services-list > div:hover {
+    background: rgba(10, 10, 10, 0.55);
+    border-color: rgba(249, 103, 251, 0.4);
+    box-shadow: 0 0 30px rgba(249, 103, 251, 0.2);
+    transform: translateY(-10px);
+}
+.rk-services .services-list p {
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+}
+
+.rk-services .services-list h2 {
+    margin-bottom: 14px;
+}
+.rk-services .services-list .svc-proof {
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #f9b3fb;
+}
+.rk-services .svc-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+}
+.rk-services .svc-tags li {
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 600px) {
+    #services.rk-services {
+        padding: 80px 0 90px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .rk-services .services-list > div,
+    .rk-services .services-list > div:hover {
+        transition: none;
+        transform: none;
+    }
+}

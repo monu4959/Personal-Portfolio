@@ -1,0 +1,316 @@
+/* ---------------- About: retro player profile over a pitch ---------------- */
+.rk-about {
+    --pink: #ff4fd8;
+    --cyan: #4fe3ff;
+    --gold: #ffd23f;
+    --ink: #120620;
+    --slot: #241238;
+    --pixel: "Press Start 2P", ui-monospace, monospace;
+    --term: "VT323", ui-monospace, monospace;
+    --body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 110px 0 130px;
+    background: #2c6a37;
+    color: #ece4ff;
+    font-family: var(--body);
+}
+/* beat the global `* { font-family }` rule inside this section */
+.rk-about * {
+    font-family: inherit;
+}
+.rk-pitch {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    display: block;
+}
+
+/* pixel border: four offset shadows leave the corners notched */
+.rk-about .px-border,
+.rk-panel,
+.rk-about-head .sub-title {
+    box-shadow:
+        0 -3px 0 0 var(--bc, var(--pink)),
+        0 3px 0 0 var(--bc, var(--pink)),
+        -3px 0 0 0 var(--bc, var(--pink)),
+        3px 0 0 0 var(--bc, var(--pink));
+}
+
+.rk-about .container {
+    padding: 10px max(2%, 16px);
+}
+
+/* ---------------- heading ---------------- */
+.rk-about-head {
+    text-align: center;
+}
+.rk-eyebrow {
+    display: inline-block;
+    font-family: var(--pixel);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ink);
+    background: var(--gold);
+    padding: 6px 10px;
+    margin-bottom: 14px;
+}
+.rk-about-head .sub-title {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 16px 22px 14px;
+    font-family: var(--pixel);
+    font-size: 30px;
+    font-weight: 400;
+    color: #fff;
+    background: rgba(14, 5, 28, 0.85);
+    text-shadow: 3px 3px 0 #3a0b52, 0 0 14px rgba(255, 79, 216, 0.6);
+}
+
+/* ---------------- layout ---------------- */
+.rk-about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) 300px minmax(0, 1fr);
+    grid-template-areas: "about card skills";
+    gap: 40px;
+    align-items: start;
+    max-width: 1320px;
+    margin: 48px auto 0;
+}
+.rk-about-text { grid-area: about; }
+.rk-skills { grid-area: skills; }
+.player-card { grid-area: card; }
+
+/* ---------------- player card ---------------- */
+.player-card {
+    --bc: var(--gold);
+    position: relative;
+    align-self: center;
+    justify-self: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 0;
+    padding: 12px;
+    background: linear-gradient(165deg, #3d1756, #1a0a2e 62%);
+    box-shadow:
+        0 -4px 0 0 var(--gold), 0 4px 0 0 var(--gold), -4px 0 0 0 var(--gold), 4px 0 0 0 var(--gold),
+        0 0 0 4px var(--gold),
+        0 0 30px 6px rgba(255, 79, 216, 0.35);
+}
+/* the card "stands" on the centre spot */
+.player-card::after {
+    content: '';
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    bottom: -26px;
+    height: 16px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5), transparent 70%);
+    pointer-events: none;
+}
+.pc-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--pixel);
+    font-size: 10px;
+    color: var(--pink);
+}
+.pc-role {
+    color: var(--gold);
+}
+.pc-photo {
+    position: relative;
+    margin: 10px 0 12px;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: 3px solid #0d0418;
+    background: #0d0418;
+}
+.pc-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+}
+/* faint scanlines so the photo sits in the retro look */
+.pc-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+}
+.pc-name {
+    font-family: var(--pixel);
+    font-size: 15px;
+    text-align: center;
+    color: #fff;
+    text-shadow: 2px 2px 0 #3a0b52;
+    margin-bottom: 10px;
+}
+.pc-stats {
+    list-style: none;
+    font-family: var(--term);
+    font-size: 19px;
+    line-height: 1.15;
+    color: #f3e8ff;
+}
+.pc-stats li {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    padding: 3px 0;
+    border-top: 2px dotted rgba(255, 210, 63, 0.25);
+}
+.pc-stats span {
+    flex: 0 0 44px;
+    font-family: var(--pixel);
+    font-size: 8px;
+    color: var(--cyan);
+}
+
+/* ---------------- panels ---------------- */
+.rk-panel {
+    background: rgba(14, 5, 28, 0.86);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    padding: 24px 22px;
+    margin: 3px;
+}
+.rk-panel-title {
+    font-family: var(--pixel);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--cyan);
+    margin-bottom: 16px;
+}
+.rk-about-text p {
+    font-size: 16.5px;
+    line-height: 1.65;
+    color: #ece4ff;
+    margin-bottom: 14px;
+}
+.rk-panel-sub {
+    font-family: var(--pixel);
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--gold);
+    margin: 22px 0 12px;
+}
+.rk-hobbies {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+}
+.rk-hobbies li {
+    --bc: #5a3384;
+    font-family: var(--term);
+    font-size: 18px;
+    line-height: 1;
+    text-align: center;
+    color: #f3e8ff;
+    background: var(--slot);
+    padding: 10px 4px 8px;
+    margin: 2px;
+    box-shadow: 0 -2px 0 0 var(--bc), 0 2px 0 0 var(--bc), -2px 0 0 0 var(--bc), 2px 0 0 0 var(--bc);
+}
+.rk-hobbies svg {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 8px;
+}
+
+/* ---------------- skills inventory ---------------- */
+.rk-inv + .rk-inv {
+    margin-top: 16px;
+}
+.rk-inv h3 {
+    font-family: var(--pixel);
+    font-size: 9.5px;
+    font-weight: 400;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+.rk-inv h3::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+    background: var(--pink);
+    box-shadow: 2px 2px 0 #3a0b52;
+}
+.rk-inv ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 2px;
+}
+.rk-inv li {
+    --bc: #5a3384;
+    font-family: var(--term);
+    font-size: 19px;
+    line-height: 1;
+    color: #f3e8ff;
+    background: var(--slot);
+    padding: 4px 8px 3px;
+    box-shadow: 0 -2px 0 0 var(--bc), 0 2px 0 0 var(--bc), -2px 0 0 0 var(--bc), 2px 0 0 0 var(--bc);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.rk-inv li:hover {
+    --bc: var(--pink);
+    transform: translateY(-2px);
+}
+
+/* ---------------- responsive ---------------- */
+@media (max-width: 1150px) {
+    .rk-about-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas: "card card" "about skills";
+        gap: 36px 28px;
+    }
+    .player-card {
+        margin-bottom: 20px;
+    }
+}
+@media (max-width: 760px) {
+    .rk-about {
+        padding: 80px 0 90px;
+    }
+    .rk-about-grid {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "card" "about" "skills";
+        gap: 32px;
+        margin-top: 36px;
+    }
+    .player-card {
+        max-width: min(300px, 82vw);
+    }
+    .rk-about-head .sub-title {
+        font-size: 22px;
+    }
+    .rk-panel {
+        padding: 20px 16px;
+    }
+    .rk-about-text p {
+        font-size: 16px;
+    }
+    .rk-hobbies {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rk-inv li { transition: none; }
+    .rk-inv li:hover { transform: none; }
+}

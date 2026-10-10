@@ -1,0 +1,193 @@
+/* ---------------- Contact: space theme ---------------- */
+#contact.rk-contact {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 120px 0 100px;
+    background:
+        radial-gradient(ellipse 60% 50% at 12% 22%, rgba(122, 77, 255, 0.28), transparent 70%),
+        radial-gradient(ellipse 55% 45% at 88% 78%, rgba(249, 103, 251, 0.18), transparent 70%),
+        radial-gradient(ellipse 40% 35% at 62% 8%, rgba(25, 195, 255, 0.12), transparent 70%),
+        #04030a;
+}
+/* blend in from the section above */
+#contact.rk-contact::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 120px;
+    z-index: -1;
+    background: linear-gradient(#080808, transparent);
+    pointer-events: none;
+}
+.rk-space {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    display: block;
+}
+#contact .row {
+    align-items: center;
+    gap: 40px 0;
+}
+
+.rk-contact .contact-left p.rk-kicker {
+    margin-top: 0;
+    margin-bottom: 14px;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #4fe3ff;
+}
+.rk-contact .sub-title {
+    text-shadow: 0 0 24px rgba(122, 77, 255, 0.45);
+}
+.rk-contact .contact-left p.rk-contact-lede {
+    margin-top: 14px;
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.65);
+}
+.rk-contact-list {
+    list-style: none;
+    margin-top: 28px;
+}
+.rk-contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 18px;
+    font-size: 17px;
+}
+.rk-contact-list i {
+    width: 24px;
+    font-size: 21px;
+    text-align: center;
+    color: #4fe3ff;
+    text-shadow: 0 0 12px rgba(79, 227, 255, 0.5);
+}
+.rk-contact-list a {
+    color: #e8ecff;
+    text-decoration: none;
+    word-break: break-word;
+    transition: color 0.2s;
+}
+.rk-contact-list a:hover,
+.rk-contact-list a:focus-visible {
+    color: #f967fb;
+}
+
+/* glass form fields */
+#contact .rk-form input,
+#contact .rk-form textarea {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    color: #fff;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+#contact .rk-form input::placeholder,
+#contact .rk-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+#contact .rk-form input:focus,
+#contact .rk-form textarea:focus {
+    border-color: rgba(79, 227, 255, 0.7);
+    box-shadow: 0 0 0 3px rgba(79, 227, 255, 0.15);
+}
+#contact #msg {
+    margin-top: 6px;
+    color: #7dffb2;
+}
+
+/* ---------------- induction buttons ---------------- */
+.induction-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 300px;
+    height: 88px;
+    margin-top: 28px;
+    padding: 0 44px;
+    border: 0;
+    border-radius: 18px;
+    background: transparent;
+    color: #e0f7f8;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-indent: 0.3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-shadow: 0 0 12px rgba(0, 210, 255, 0.6), 0 1px 4px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.22s cubic-bezier(.34, 1.4, .5, 1);
+}
+.induction-btn > span {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+}
+.induction-btn .induction-gl {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 18px;
+    pointer-events: none;
+}
+.induction-btn:hover {
+    transform: translateY(-2px);
+}
+.induction-btn:active {
+    transform: translateY(1px) scale(0.99);
+}
+.induction-btn:focus-visible {
+    outline: 2px solid #4fe3ff;
+    outline-offset: -12px;
+}
+/* no WebGL: same plate, static glow */
+.induction-btn.induction-fallback::before {
+    content: '';
+    position: absolute;
+    inset: 18px 18px;
+    border-radius: 14px;
+    background: #062630;
+    box-shadow: 0 0 0 2px #00f2fe, 0 0 24px rgba(0, 242, 254, 0.5);
+}
+
+/* the glowing plate is inset ~18px inside the element; line it up with the text column */
+@media (min-width: 601px) {
+    .rk-contact .induction-btn {
+        margin-left: -18px;
+    }
+}
+@media (max-width: 600px) {
+    #contact.rk-contact {
+        padding: 90px 0 70px;
+    }
+    .induction-btn {
+        width: 100%;
+        min-width: 0;
+    }
+    .rk-contact-list li {
+        font-size: 15px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .induction-btn,
+    .induction-btn:hover,
+    .induction-btn:active {
+        transition: none;
+        transform: none;
+    }
+}

@@ -4,14 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rohan's Portfolio Website</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="hero/hero.css">
+    <link rel="stylesheet" href="about/about.css">
     <script src="https://kit.fontawesome.com/03360b51e1.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="services/tubes.css">
+    <link rel="stylesheet" href="projects/sylva.css">
+    <link rel="stylesheet" href="projects/projects.css">
+    <link rel="stylesheet" href="contact/contact.css">
 </head>
 <body>
-    <div id="header">
+    <div id="header" class="rk-hero" data-game="off">
+        <div class="rk-bg" aria-hidden="true"></div>
+        <div class="rk-stars" aria-hidden="true"></div>
         <div class="container">
             <nav>
-                <img src="images/3.png" class="logo">
+                <a href="#header" class="rk-logo">Rohan</a>
                 <ul id="sidemenu">
                     <li><a href="#header">Home</a></li>
                     <li><a href="#about">About</a></li>
@@ -23,178 +34,211 @@
                 </ul>
                 <i class="fa-solid fa-bars" onclick="openmenu()"></i>
             </nav>
-            <div class="header-text">
-                <p></p>
-                <h1>Hello, this is <span>Rohan</span></h1>
-            </div>
+        </div>
+        <h1 class="rk-visually-hidden">Hi, my name is Rohan Reddy Kolla, AI developer</h1>
+        <div id="rk-stage" class="rk-stage" role="region"
+             aria-label="RK-01 handheld console with a playable Snake game. Press Enter to start, arrow keys or WASD to steer, Escape to pause.">
+            <p class="rk-loading" aria-hidden="true">LOADING...</p>
+        </div>
+        <div class="rk-hud">
+            <p class="rk-hint" aria-hidden="true">
+                <span class="mouse idle">ENTER OR CLICK START TO PLAY</span>
+                <span class="touch idle">TAP START TO PLAY</span>
+                <span class="mouse playing">ARROWS / WASD TO STEER &middot; ESC TO PAUSE</span>
+                <span class="touch playing">SWIPE OR USE THE D-PAD TO STEER</span>
+            </p>
+            <a href="#about" class="rk-scroll">ENTER PORTFOLIO<span class="arrow" aria-hidden="true"></span></a>
         </div>
     </div>
     <!-- --------About------- -->
-<div id="about">
+<div id="about" class="rk-about">
     <div class="container">
-        <div class="row">
-            <div class="about-col-1">
-                <!-- <img src="images/4.jpg" width="500" height="600"> -->
-                <img src="images/13.jpg">
-            </div>
-            <div class="about-col-2">
-                <h1 class="sub-title">About Me</h1>
-                <P>
-                    hi i am Rohan Reddy Kolla, a dedicated AI developer with a relentless passion
-                    for harnessing advanced technologies to address real-world challanges. With expertise
-                    in Python i craft intelligent systems that push the boundaries of innovation.
-                    Continuous learning is my driving force, keeping me at the cutting edge of AI advancements.
-                    Let's collaborate to transform your ideas into impactful, intelligent realities together.
-
-                </P>
-                <div class="tab-titles">
-                    <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
-                    <p class="tab-links" onclick="opentab('education')">Education</p>
-                    <p class="tab-links" onclick="opentab('experience')">Experience</p>
+        <div class="rk-about-head">
+            <p class="rk-eyebrow">PLAYER PROFILE</p>
+            <h1 class="sub-title">About Me</h1>
+        </div>
+        <div class="rk-about-grid">
+            <figure class="player-card">
+                <div class="pc-top">
+                    <span>P1</span>
+                    <span class="pc-role">AI/ML ENGINEER</span>
                 </div>
-                <div class="tab-contents active-tab" id="skills">
-                    <ul>
-                        <li><span>Machine Learning</span><br>Used a few libraries to make prediction models</li><br>
-                        <li><span>Deep learning and Reinforcement learning</span><br>used these concepts in many of my projects</li><br>
-                        <li><span>Data science and Data analysis</span><br>Curated and analyzed datasets to extract meaningful insights and patterns.</li><br>
-                        <li><span>UI/UX</span><br>Designed intuitive and visually appealing web/app interfaces.</li><br>
-                        <li><span>Languages</span><br>Familiar with Python, C, C++, Java, HTML, CSS, java script, and a little idea in devops(azure,terraform)</li><br>
-
-
+                <div class="pc-photo">
+                    <img src="images/13.jpg" alt="Rohan holding a football trophy on a pitch" width="960" height="1280" loading="lazy">
+                </div>
+                <figcaption>
+                    <p class="pc-name">ROHAN KOLLA</p>
+                    <ul class="pc-stats">
+                        <li><span>CLUB</span>Northeastern University</li>
+                        <li><span>NOW</span>MS Data Analytics Eng.</li>
+                        <li><span>FOCUS</span>AI &middot; Class of 2027</li>
+                        <li><span>GPA</span>4.0 / 4.0</li>
+                        <li><span>PREV</span>B.Tech in AI, Mahindra Univ.</li>
                     </ul>
+                </figcaption>
+            </figure>
+
+            <section class="rk-panel rk-about-text" aria-labelledby="about-me-title">
+                <h2 id="about-me-title" class="rk-panel-title">&gt; ABOUT ME</h2>
+                <p>
+                    I'm an AI/ML engineer finishing an MS in Data Analytics Engineering with an AI focus at
+                    Northeastern University. I build LLM systems that hold up outside a notebook, like a
+                    self-hosted Qwen3-4B text-to-SQL agent that reaches 87.4% execution accuracy at 1/14th the cost.
+                </p>
+                <p>
+                    At CREWASIS I build LLM systems for real client workflows: an agentic recommender that maps
+                    client briefs to 19 analysis models, and an automated systematic review (SRR) pipeline with
+                    local inference on Ollama. Earlier, at Random Trees, my LLM extraction pipeline cut manual
+                    document processing by 60%.
+                </p>
+                <p>
+                    A background in marketing and go-to-market means I build with the end user in mind.
+                </p>
+
+                <h3 class="rk-panel-sub">&gt; OFF THE PITCH... AND ON IT</h3>
+                <ul class="rk-hobbies">
+                    <li data-pixel-icon="football">Football</li>
+                    <li data-pixel-icon="painting">Painting</li>
+                    <li data-pixel-icon="cooking">Cooking</li>
+                    <li data-pixel-icon="astronomy">Astronomy</li>
+                    <li data-pixel-icon="games">Video games</li>
+                </ul>
+            </section>
+
+            <section class="rk-panel rk-skills" aria-labelledby="skills-title">
+                <h2 id="skills-title" class="rk-panel-title">&gt; INVENTORY</h2>
+                <div class="rk-inv">
+                    <h3>Languages</h3>
+                    <ul><li>Python</li><li>SQL</li><li>C/C++</li><li>TypeScript</li></ul>
                 </div>
-                <div class="tab-contents" id="education">
-                    <ul>
-                        <li><span>mahindra university</span><br>2020-2024<br>7.7</li><br>
-                        <li><span>Fiitjee junior college</span><br>2018-2020<br>87%</li><br>
-                        <li><span>Delpi Public School</span><br>2008-2018<br>87%</li><br>
-                    </ul>
+                <div class="rk-inv">
+                    <h3>ML / DL</h3>
+                    <ul><li>PyTorch</li><li>TensorFlow</li><li>TF Lite</li><li>Hugging Face</li><li>scikit-learn</li><li>CNN / LSTM</li><li>LoRA fine-tuning</li><li>YOLOv8</li><li>CLIP</li></ul>
                 </div>
-                <div class="tab-contents" id="experience">
-                    <ul>
-                        <li><span>Random Trees</span><br>AI engineer</li>
-                    </ul>
+                <div class="rk-inv">
+                    <h3>LLMs &amp; GenAI</h3>
+                    <ul><li>RAG</li><li>LangGraph</li><li>Multi-agent systems</li><li>Tool-augmented reasoning</li><li>Prompt engineering</li><li>LLM evaluation</li><li>Structured outputs</li><li>Distillation</li><li>vLLM</li><li>Ollama</li><li>GPT-4o</li><li>LLaVA</li><li>Qwen3</li></ul>
                 </div>
-            </div>
+                <div class="rk-inv">
+                    <h3>Data</h3>
+                    <ul><li>Pandas</li><li>NumPy</li><li>PostgreSQL</li><li>Supabase</li><li>MySQL</li><li>Tableau</li><li>Plotly</li><li>Matplotlib</li><li>Streamlit</li></ul>
+                </div>
+                <div class="rk-inv">
+                    <h3>MLOps / Cloud</h3>
+                    <ul><li>AWS EC2 / S3</li><li>Docker</li><li>Kubernetes</li><li>CI/CD</li><li>MLflow</li><li>DVC</li><li>Airflow</li><li>Langfuse</li><li>Grafana</li></ul>
+                </div>
+                <div class="rk-inv">
+                    <h3>Backend &amp; Tools</h3>
+                    <ul><li>FastAPI</li><li>Flask</li><li>Next.js</li><li>React</li><li>FFmpeg</li><li>Linux</li><li>Git</li></ul>
+                </div>
+            </section>
         </div>
     </div>
 </div>
 
 <!-- ---------------services-------------------->
 
-<div id="services">
+<div id="services" class="rk-services">
+    <div class="rk-tubes" aria-hidden="true">
+        <canvas id="tubes-canvas"></canvas>
+    </div>
     <div class="container">
-        <h1 class="sub-title">My Services</h1>
+        <div class="rk-services-head">
+            <h1 class="sub-title">My Services</h1>
+            <button type="button" id="tubes-shuffle" class="rk-shuffle" hidden>Shuffle colors</button>
+        </div>
         <div class="services-list">
             <div>
-                <h2>Machine Learning Engineer</h2><br>
-                <p>As a machine learning engineer, I specialize in transforming complex data into actionable insights and intelligent solutions. From developing cutting-edge algorithms to deploying scalable machine learning models, I offer a range of services aimed at leveraging data to drive innovation and efficiency. Let's collaborate to harness the power of AI and machine learning, creating robust, data-driven systems that elevate your business and deliver real-world impact.</p>
-                <a href="#">Learn More</a>
-            </div>
-             <div>
-                <h2>Data Scientist/Analyst</h2><br>
-                <p>As a machine learning engineer, I specialize in transforming complex data into actionable insights and intelligent solutions. From developing cutting-edge algorithms to deploying scalable machine learning models, I offer a range of services aimed at leveraging data to drive innovation and efficiency. Let's collaborate to harness the power of AI and machine learning, creating robust, data-driven systems that elevate your business and deliver real-world impact.</p>
-                <a href="#">Learn More</a>
+                <h2>LLM &amp; Agent Systems</h2>
+                <p>RAG pipelines, LangGraph multi-agent workflows, tool-augmented reasoning and structured outputs,
+                    designed so every LLM decision can be checked, with evaluation built in from day one.</p>
+                <p class="svc-proof">HR Intelligence Platform: 95% retrieval accuracy, 85% lower latency.</p>
+                <ul class="svc-tags"><li>RAG</li><li>LangGraph</li><li>GPT-4o</li><li>LLM evaluation</li></ul>
+                <a href="#projects">See the work</a>
             </div>
             <div>
-                <h2>Web Design</h2><br>
-                <p>As a frontend developer, I excel in transforming your ideas into visually stunning and interactive user interfaces that engage and resonate. From adaptive web designs to interactive user experiences, I provide a variety of services to enhance your digital presence. Let's work together to craft seamless, attractive, and highly functional digital solutions that make a lasting impact.</p>
-                <a href="#">Learn More</a>
+                <h2>ML Engineering &amp; MLOps</h2>
+                <p>Fine-tuning and distillation, self-hosted serving, and the release machinery around it: versioned
+                    data and models, CI release gates, canary rollouts and drift-triggered retraining.</p>
+                <p class="svc-proof">HuskySwap: 87.4% execution accuracy at 1/14th the cost of the teacher model.</p>
+                <ul class="svc-tags"><li>LoRA</li><li>vLLM</li><li>MLflow</li><li>DVC</li><li>Docker</li><li>AWS</li></ul>
+                <a href="#projects">See the work</a>
+            </div>
+            <div>
+                <h2>Computer Vision &amp; Multimodal</h2>
+                <p>Real-time detection pipelines from camera to dashboard, multimodal models that pair vision encoders
+                    with language decoders, and efficient inference on edge and mobile devices.</p>
+                <p class="svc-proof">CLIP + GPT-2 captioning: CIDEr 0.7668, ahead of pretrained BLIP.</p>
+                <ul class="svc-tags"><li>YOLOv8</li><li>CLIP</li><li>PyTorch</li><li>TF Lite</li></ul>
+                <a href="#projects">See the work</a>
+            </div>
+            <div>
+                <h2>Full-Stack AI Products</h2>
+                <p>Taking a model all the way to users: FastAPI and Flask backends, React and Next.js front ends,
+                    Postgres data models and live dashboards, so an AI feature ships as a product, not a demo.</p>
+                <p class="svc-proof">Real-time CV platform: sub-second camera-to-dashboard latency across streams.</p>
+                <ul class="svc-tags"><li>FastAPI</li><li>Next.js</li><li>React</li><li>PostgreSQL</li><li>Streamlit</li></ul>
+                <a href="#projects">See the work</a>
             </div>
         </div>
     </div>
 </div>
 
 <!-- --------------------portfolio--------------------------- -->
-<div id="projects">
+<div id="projects" class="rk-projects">
+    <!-- ThreeUI "Sylva / living green" scene, mounted by src/threeui-islands.js -->
+    <div class="rk-sylva" data-threeui="SylvaLivingWorldScene" aria-hidden="true"></div>
     <div class="container">
         <h1 class="sub-title">My Projects</h1>
-        <div class="work-list">
-            <div class="work">
-                <img src="images/7.png">
-                <div class="layer">
-                    <h3>Document Extraction App</h3>
-                    <p>The app lets us extract all the information into json format for better understanding and easy readying
-                    </p>
-                </div>
-            </div>
-            <div class="work">
-                <img src="images/8.png">
-                <div class="layer">
-                    <h3>Neural Architectural Search</h3>
-                    <p>synthesis of neural Architectures using evolutionary algorithms
-                    </p>
-                </div>
-            </div>
-            <div class="work">
-                <img src="images/11.jpg">
-                <div class="layer">
-                    <h3>Malware Analysis</h3>
-                    <p>Analysis, detection, and mitigation of potential threats using deep learning techniques.
-                    </p>
-                </div>
-            </div>
-            <div class="work">
-                <img src="images/12.jpg">
-                <div class="layer">
-                    <h3>Reinforcement Projects</h3>
-                    <p>Designed and implemented reinforcemnt learning projects using Policy optimization to solve complex problems
-                    </p>
-                </div>
-            </div>
+        <p class="pj-intro">Hover a row to slow it down.</p>
+        <!-- project cards are rendered from src/data/projects.js by projects/slider.jsx -->
+        <div id="rk-project-slider" class="rk-project-slider">
+            <ul class="pj-fallback">
+                <li><strong>HuskySwap Text-to-SQL Agent</strong>: Qwen3-4B distilled from a 120B teacher, 87.4% execution accuracy at 1/14th the cost.</li>
+                <li><strong>Brief to Blueprint</strong>: agentic LLM recommender mapping client briefs to 19 analysis models (CREWASIS).</li>
+                <li><strong>HR Intelligence Platform</strong>: LangGraph + GPT-4o multi-agent system, 95% retrieval accuracy.</li>
+                <li><strong>Multimodal Image Captioning</strong>: CLIP + GPT-2 with LoRA, CIDEr 0.7668.</li>
+                <li><strong>Prompt Engineering Evaluation Platform</strong>: 27% less hallucination across 500+ experiments.</li>
+                <li><strong>Real-Time Computer Vision Platform</strong>: YOLOv8 with sub-second end-to-end latency.</li>
+                <li><strong>SRR Automation</strong>: LLM systematic-review pipeline with local Ollama inference (CREWASIS).</li>
+                <li><strong>LLM Document Extraction</strong>: 60% less manual data processing (Random Trees).</li>
+                <li><strong>Protein Function Prediction</strong>: CNN over 270K+ UniProt sequences, 96.09% accuracy.</li>
+                <li><strong>Malware Analysis</strong>: CNN-LSTM over API-call sequences, 98.91% accuracy.</li>
+                <li><strong>Neural Architecture Search</strong>: +25% accuracy with 40% fewer parameters.</li>
+            </ul>
         </div>
-        <a href="#" class="btn">See more</a>
     </div>
 
 </div>
  <!-- -----------------------------contact---------------------- -->
-  <div id="contact">
+  <div id="contact" class="rk-contact">
     <div class="container">
         <div class="row">
             <div class="contact-left">
+                <p class="rk-kicker">Mission control</p>
                 <h1 class="sub-title">Contact Me</h1>
-                <p><i class="fa-solid fa-paper-plane"></i>monu4959@gmail.com</p>
-                <p><i class="fa-solid fa-phone"></i>+919949564646</p>
-                <div class="social-icons">
-                    <a href="www.linkedin.com/in/rohan-reddy-kolla"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="https://github.com/monu4959?tab=repositories"><i class="fa-brands fa-github"></i></a>
-                    <a href=""><i class="fa-solid fa-envelope"></i></a>
-                </div>
-                <a href="images/Rohan_Resume.pdf" download class="btn btn2" role="button">Download Resume</a>
-                <!-- <a href="images/K.Rohan_Reddy_Resume.pdf" download class="btn btn-info" role="button">Link Button</a> -->
-
+                <p class="rk-contact-lede">Have a role, a project or an idea? Send a signal.</p>
+                <ul class="rk-contact-list">
+                    <li><i class="fa-solid fa-paper-plane" aria-hidden="true"></i><a href="mailto:kolla.ro@northeastern.edu">kolla.ro@northeastern.edu</a></li>
+                    <li><i class="fa-solid fa-phone" aria-hidden="true"></i><a href="tel:+18574238396">(857) 423-8396</a></li>
+                    <li><i class="fa-brands fa-linkedin" aria-hidden="true"></i><a href="https://www.linkedin.com/in/rohan-reddy-kolla" target="_blank" rel="noopener">linkedin.com/in/rohan-reddy-kolla</a></li>
+                    <li><i class="fa-brands fa-github" aria-hidden="true"></i><a href="https://github.com/monu4959" target="_blank" rel="noopener">github.com/monu4959</a></li>
+                </ul>
+                <a href="Rohan_Kolla_Resume.pdf" download="Rohan_Kolla_Resume.pdf" class="induction-btn" data-induction><span>Download Resume</span></a>
             </div>
             <div class="contact-right">
-                <form name="submit-to-google-sheet">
-                    <input type="text" name="Name" placeholder="Your Name" required>
-                    <input type="email" name="email" placeholder="Your Email"required>
-                    <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
-                    <button type="submit" class="btn btn2">Submit</button>
+                <form name="submit-to-google-sheet" class="rk-form">
+                    <input type="text" name="Name" placeholder="Your Name" aria-label="Your name" required>
+                    <input type="email" name="email" placeholder="Your Email" aria-label="Your email" required>
+                    <textarea name="Message" rows="6" placeholder="Your Message" aria-label="Your message"></textarea>
+                    <button type="submit" class="induction-btn" data-induction><span>Send Message</span></button>
                 </form>
-                <span id="msg"></span>
+                <span id="msg" role="status"></span>
             </div>
         </div>
     </div>
   </div>
 
-<script>
-    var tablinks = document.getElementsByClassName("tab-links");
-    var tabcontents = document.getElementsByClassName("tab-contents");
-
-    function opentab(tabname){
-        for(tablink of tablinks){
-            tablink.classList.remove("active-link");
-        }
-        for(tabcontent of tabcontents){
-            tabcontent.classList.remove("active-tab");
-        }
-        for(tabcontent of tabcontents){
-            tabcontent.classList
-        }
-        event.currentTarget.classList.add("active-link");
-        document.getElementById(tabname).classList.add("active-tab");
-}
-</script>
 <script>
     var sidemeu = document.getElementById("sidemenu");
 
@@ -223,6 +267,13 @@
         .catch(error => console.error('Error!', error.message))
     })
   </script>
-    
+<script type="module" src="hero/hero.js"></script>
+<script type="module" src="about/about.js"></script>
+<script type="module" src="services/tubes.js"></script>
+<script type="module" src="src/threeui-islands.js"></script>
+<script type="module" src="projects/projects.js"></script>
+<script type="module" src="contact/space.js"></script>
+<script type="module" src="contact/induction-button.js"></script>
+
 </body>
 </html>
