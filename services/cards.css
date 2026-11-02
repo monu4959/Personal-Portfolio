@@ -1,0 +1,312 @@
+/* ---------------- Services: flip trading cards ----------------
+   Original card design (no third-party artwork or branding): title on the front, details on the
+   back. Flips on hover (mouse), keyboard focus, or tap (touch); see services/cards.js. */
+
+.tc-hint {
+    margin-top: 8px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+}
+.tc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 32px 24px;
+    justify-items: center;
+    margin-top: 36px;
+}
+
+/* type themes */
+.tc--psychic { --type: #c46bff; --type2: #ff6fd8; --card: #1b0b2e; --art: radial-gradient(circle at 50% 42%, #7a3bc0 0%, #3b1466 38%, #160626 75%); }
+.tc--steel { --type: #4fe3ff; --type2: #a9bdd1; --card: #07161f; --art: radial-gradient(circle at 50% 42%, #2a6d8f 0%, #123447 40%, #061019 75%); }
+.tc--electric { --type: #ffd23f; --type2: #ff9a3c; --card: #071233; --art: radial-gradient(circle at 50% 42%, #2b55c7 0%, #142a6e 40%, #050b24 75%); }
+.tc--grass { --type: #7dff6a; --type2: #2fbf71; --card: #06180c; --art: radial-gradient(circle at 50% 42%, #2f8a3e 0%, #14481f 40%, #051509 75%); }
+
+.tc {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 63 / 88;
+    perspective: 1400px;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.tc:focus-visible {
+    outline: 2px dashed var(--type);
+    outline-offset: 8px;
+    border-radius: 18px;
+}
+.tc-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.75s cubic-bezier(.2, .8, .2, 1);
+}
+@media (hover: hover) {
+    .tc:hover .tc-inner {
+        transform: rotateY(180deg);
+    }
+}
+.tc:focus-visible .tc-inner,
+.tc:has(a:focus-visible) .tc-inner,
+.tc.is-flipped .tc-inner {
+    transform: rotateY(180deg);
+}
+
+.tc-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45), 0 0 26px color-mix(in srgb, var(--type) 25%, transparent);
+}
+/* card text font; icons (<i>) keep Font Awesome's own font */
+.tc-face *:not(i) {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ---------- front ---------- */
+.tc-front {
+    gap: 8px;
+    padding: 8px;
+    border: 9px solid transparent;
+    background:
+        linear-gradient(170deg, color-mix(in srgb, var(--card) 70%, #fff 6%), var(--card)) padding-box,
+        linear-gradient(145deg, #f4f6fa, #a3abb8 30%, #eef1f5 52%, #7b8392 78%, #dfe3ea) border-box;
+    color: #fff;
+}
+.tc-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 9px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(235, 238, 245, 0.75));
+    color: #111;
+}
+.tc-stage {
+    flex: 0 0 auto;
+    font-size: 8px;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 1px;
+    padding: 3px 7px;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(90deg, #2b2b33, #55555f);
+}
+.tc-name {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.2px;
+}
+.tc-type {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 12px;
+    color: #fff;
+    background: radial-gradient(circle at 35% 30%, var(--type2), var(--type));
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.tc-type i {
+    color: #111;
+}
+
+.tc-art {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    overflow: hidden;
+    background: var(--art);
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.18), inset 0 -30px 40px rgba(0, 0, 0, 0.35);
+}
+.tc-orb {
+    position: absolute;
+    width: 62%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--type) 65%, transparent), transparent 68%);
+    filter: blur(6px);
+}
+.tc-emblem {
+    position: relative;
+    font-size: clamp(56px, 7vw, 82px);
+    color: #fff;
+    filter: drop-shadow(0 0 14px var(--type)) drop-shadow(0 0 30px color-mix(in srgb, var(--type) 60%, transparent));
+}
+/* drifting sparkles */
+.tc-sparks {
+    position: absolute;
+    inset: -20%;
+    background:
+        radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent),
+        radial-gradient(1px 1px at 70% 20%, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 80% 65%, var(--type2), transparent),
+        radial-gradient(1px 1px at 35% 75%, #fff, transparent),
+        radial-gradient(2px 2px at 55% 45%, var(--type), transparent),
+        radial-gradient(1px 1px at 12% 60%, #fff, transparent);
+    background-size: 60% 60%;
+    opacity: 0.85;
+    animation: tc-drift 14s linear infinite;
+}
+@keyframes tc-drift {
+    to { transform: translate(18%, -18%); }
+}
+
+.tc-flavor {
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.78);
+    padding: 0 2px;
+}
+.tc-moves {
+    list-style: none;
+}
+.tc-moves li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    column-gap: 8px;
+    padding: 5px 2px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.tc-move-name {
+    font-size: 13px;
+    font-weight: 700;
+}
+.tc-moves strong {
+    font-size: 19px;
+    font-weight: 800;
+    font-style: italic;
+    color: var(--type);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--type) 45%, transparent);
+}
+.tc-moves small {
+    grid-column: 1 / -1;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.55);
+}
+.tc-foot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 0 2px;
+}
+
+/* holographic foil sheen */
+.tc-holo {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(115deg,
+        transparent 25%,
+        rgba(255, 255, 255, 0.22) 33%,
+        rgba(255, 120, 220, 0.16) 39%,
+        rgba(120, 220, 255, 0.16) 45%,
+        rgba(255, 240, 140, 0.12) 50%,
+        transparent 58%);
+    background-size: 260% 260%;
+    mix-blend-mode: overlay;
+    animation: tc-holo 7s ease-in-out infinite;
+}
+@keyframes tc-holo {
+    0%, 100% { background-position: 100% 100%; }
+    50% { background-position: 0% 0%; }
+}
+
+/* ---------- optional image front (data-image) ---------- */
+.tc.has-image .tc-front {
+    padding: 0;
+    border: 0;
+    background: #111;
+}
+.tc.has-image .tc-front > :not(.tc-image):not(.tc-holo) {
+    display: none;
+}
+.tc-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+/* ---------- back: the original (Oct 10) glass service card, fitted to the card shape ---------- */
+.tc-back {
+    gap: 12px;
+    padding: 24px 22px;
+    border: 1px solid rgba(249, 103, 251, 0.4);
+    border-radius: 24px;
+    background: rgba(10, 10, 10, 0.7);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 30px rgba(249, 103, 251, 0.2), 0 18px 40px rgba(0, 0, 0, 0.45);
+    color: #fff;
+    transform: rotateY(180deg);
+    overflow: hidden;
+}
+.tc-back h3 {
+    font-size: 23px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #fff;
+}
+.tc-back p {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+}
+.tc-back .tc-proof {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #f9b3fb;
+}
+.tc-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.tc-tags li {
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.tc-back a {
+    margin-top: auto;
+    font-size: 12px;
+    color: #fff;
+    text-decoration: none;
+}
+.tc-back a:hover,
+.tc-back a:focus-visible {
+    color: #f9b3fb;
+    text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tc-inner { transition: none; }
+    .tc-sparks, .tc-holo { animation: none; }
+}

@@ -53,59 +53,10 @@
     color: #0a0a0a;
 }
 
-/* glass cards so the tubes glow through without hurting readability */
-.rk-services .services-list > div {
-    background: rgba(10, 10, 10, 0.55);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    transition: transform 0.5s, box-shadow 0.5s, border-color 0.5s;
-}
-.rk-services .services-list > div:hover {
-    background: rgba(10, 10, 10, 0.55);
-    border-color: rgba(249, 103, 251, 0.4);
-    box-shadow: 0 0 30px rgba(249, 103, 251, 0.2);
-    transform: translateY(-10px);
-}
-.rk-services .services-list p {
-    color: rgba(255, 255, 255, 0.75);
-    line-height: 1.6;
-}
-
-.rk-services .services-list h2 {
-    margin-bottom: 14px;
-}
-.rk-services .services-list .svc-proof {
-    margin-top: 16px;
-    font-size: 13px;
-    line-height: 1.5;
-    color: #f9b3fb;
-}
-.rk-services .svc-tags {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 14px;
-}
-.rk-services .svc-tags li {
-    font-size: 11px;
-    padding: 4px 9px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-}
+/* the service cards themselves are styled in services/cards.css */
 
 @media (max-width: 600px) {
     #services.rk-services {
         padding: 80px 0 90px;
-    }
-}
-@media (prefers-reduced-motion: reduce) {
-    .rk-services .services-list > div,
-    .rk-services .services-list > div:hover {
-        transition: none;
-        transform: none;
     }
 }

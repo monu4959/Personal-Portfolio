@@ -6,3 +6,11 @@ old-resumes/
 /*.avif
 /*.png
 /*.jpg
+/*.webp
+/*.jpeg
+# local-only card images (not published)
+public/images/pika.jpg
+public/images/dragonite.jpg
+public/images/mew.jpg
+public/images/mew2.jpg
+public/images/charizard.webp

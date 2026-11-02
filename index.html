@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="about/about.css">
     <script src="https://kit.fontawesome.com/03360b51e1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="services/tubes.css">
+    <link rel="stylesheet" href="services/cards.css">
     <link rel="stylesheet" href="projects/sylva.css">
     <link rel="stylesheet" href="projects/projects.css">
     <link rel="stylesheet" href="contact/contact.css">
@@ -147,39 +148,130 @@
             <h1 class="sub-title">My Services</h1>
             <button type="button" id="tubes-shuffle" class="rk-shuffle" hidden>Shuffle colors</button>
         </div>
-        <div class="services-list">
-            <div>
-                <h2>LLM &amp; Agent Systems</h2>
-                <p>RAG pipelines, LangGraph multi-agent workflows, tool-augmented reasoning and structured outputs,
-                    designed so every LLM decision can be checked, with evaluation built in from day one.</p>
-                <p class="svc-proof">HR Intelligence Platform: 95% retrieval accuracy, 85% lower latency.</p>
-                <ul class="svc-tags"><li>RAG</li><li>LangGraph</li><li>GPT-4o</li><li>LLM evaluation</li></ul>
-                <a href="#projects">See the work</a>
-            </div>
-            <div>
-                <h2>ML Engineering &amp; MLOps</h2>
-                <p>Fine-tuning and distillation, self-hosted serving, and the release machinery around it: versioned
-                    data and models, CI release gates, canary rollouts and drift-triggered retraining.</p>
-                <p class="svc-proof">HuskySwap: 87.4% execution accuracy at 1/14th the cost of the teacher model.</p>
-                <ul class="svc-tags"><li>LoRA</li><li>vLLM</li><li>MLflow</li><li>DVC</li><li>Docker</li><li>AWS</li></ul>
-                <a href="#projects">See the work</a>
-            </div>
-            <div>
-                <h2>Computer Vision &amp; Multimodal</h2>
-                <p>Real-time detection pipelines from camera to dashboard, multimodal models that pair vision encoders
-                    with language decoders, and efficient inference on edge and mobile devices.</p>
-                <p class="svc-proof">CLIP + GPT-2 captioning: CIDEr 0.7668, ahead of pretrained BLIP.</p>
-                <ul class="svc-tags"><li>YOLOv8</li><li>CLIP</li><li>PyTorch</li><li>TF Lite</li></ul>
-                <a href="#projects">See the work</a>
-            </div>
-            <div>
-                <h2>Full-Stack AI Products</h2>
-                <p>Taking a model all the way to users: FastAPI and Flask backends, React and Next.js front ends,
-                    Postgres data models and live dashboards, so an AI feature ships as a product, not a demo.</p>
-                <p class="svc-proof">Real-time CV platform: sub-second camera-to-dashboard latency across streams.</p>
-                <ul class="svc-tags"><li>FastAPI</li><li>Next.js</li><li>React</li><li>PostgreSQL</li><li>Streamlit</li></ul>
-                <a href="#projects">See the work</a>
-            </div>
+        <p class="tc-hint">Hover or tap a card to flip it.</p>
+        <!-- To put a picture on a card's front, add data-image="images/<file>" to its <article>
+             and put the file in public/images/. Example: <article class="tc tc--psychic" data-image="images/card-1.jpg" ...> -->
+        <div class="tc-grid">
+            <article class="tc tc--psychic" data-image="images/pika.jpg" tabindex="0" aria-label="LLM &amp; Agent Systems service card. Hover, focus or tap to flip.">
+                <div class="tc-inner">
+                    <div class="tc-face tc-front">
+                        <header class="tc-head">
+                            <span class="tc-stage">SERVICE</span>
+                            <h2 class="tc-name">LLM &amp; Agent Systems</h2>
+                            <span class="tc-type" aria-hidden="true"><i class="fa-solid fa-brain"></i></span>
+                        </header>
+                        <div class="tc-art" aria-hidden="true">
+                            <span class="tc-orb"></span>
+                            <i class="fa-solid fa-brain tc-emblem"></i>
+                            <span class="tc-sparks"></span>
+                        </div>
+                        <p class="tc-flavor">Retrieval, agents and evaluation for real workflows.</p>
+                        <ul class="tc-moves">
+                            <li><span class="tc-move-name">HR Intelligence</span><strong>95%</strong><small>retrieval accuracy</small></li>
+                            <li><span class="tc-move-name">Prompt Eval</span><strong>&minus;27%</strong><small>hallucination, 500+ runs</small></li>
+                        </ul>
+                        <footer class="tc-foot"><span>Illus. RK-01</span><span>01/04 &#9733;</span></footer>
+                        <span class="tc-holo" aria-hidden="true"></span>
+                    </div>
+                    <div class="tc-face tc-back">
+                        <h3>LLM &amp; Agent Systems</h3>
+                        <p>RAG pipelines, LangGraph multi-agent workflows, tool-augmented reasoning and structured outputs, designed so every LLM decision can be checked, with evaluation built in from day one.</p>
+                        <p class="tc-proof">HR Intelligence Platform: 95% retrieval accuracy, 85% lower latency.</p>
+                        <ul class="tc-tags"><li>RAG</li><li>LangGraph</li><li>GPT-4o</li><li>LLM evaluation</li></ul>
+                        <a href="#projects">See the work</a>
+                    </div>
+                </div>
+            </article>
+            <article class="tc tc--steel" data-image="images/dragonite.jpg" tabindex="0" aria-label="ML Engineering &amp; MLOps service card. Hover, focus or tap to flip.">
+                <div class="tc-inner">
+                    <div class="tc-face tc-front">
+                        <header class="tc-head">
+                            <span class="tc-stage">SERVICE</span>
+                            <h2 class="tc-name">ML Engineering &amp; MLOps</h2>
+                            <span class="tc-type" aria-hidden="true"><i class="fa-solid fa-gears"></i></span>
+                        </header>
+                        <div class="tc-art" aria-hidden="true">
+                            <span class="tc-orb"></span>
+                            <i class="fa-solid fa-gears tc-emblem"></i>
+                            <span class="tc-sparks"></span>
+                        </div>
+                        <p class="tc-flavor">Models that ship, with the machinery to keep them safe.</p>
+                        <ul class="tc-moves">
+                            <li><span class="tc-move-name">HuskySwap</span><strong>87.4%</strong><small>execution accuracy</small></li>
+                            <li><span class="tc-move-name">Self-hosted</span><strong>1.8 s</strong><small>p95 latency vs 6.4 s</small></li>
+                        </ul>
+                        <footer class="tc-foot"><span>Illus. RK-01</span><span>02/04 &#9733;</span></footer>
+                        <span class="tc-holo" aria-hidden="true"></span>
+                    </div>
+                    <div class="tc-face tc-back">
+                        <h3>ML Engineering &amp; MLOps</h3>
+                        <p>Fine-tuning and distillation, self-hosted serving, and the release machinery around it: versioned data and models, CI release gates, canary rollouts and drift-triggered retraining.</p>
+                        <p class="tc-proof">HuskySwap: 87.4% execution accuracy at 1/14th the cost of the teacher model.</p>
+                        <ul class="tc-tags"><li>LoRA</li><li>vLLM</li><li>MLflow</li><li>DVC</li><li>Docker</li><li>AWS</li></ul>
+                        <a href="#projects">See the work</a>
+                    </div>
+                </div>
+            </article>
+            <article class="tc tc--electric" data-image="images/mew2.jpg" tabindex="0" aria-label="Computer Vision &amp; Multimodal service card. Hover, focus or tap to flip.">
+                <div class="tc-inner">
+                    <div class="tc-face tc-front">
+                        <header class="tc-head">
+                            <span class="tc-stage">SERVICE</span>
+                            <h2 class="tc-name">Computer Vision &amp; Multimodal</h2>
+                            <span class="tc-type" aria-hidden="true"><i class="fa-solid fa-eye"></i></span>
+                        </header>
+                        <div class="tc-art" aria-hidden="true">
+                            <span class="tc-orb"></span>
+                            <i class="fa-solid fa-eye tc-emblem"></i>
+                            <span class="tc-sparks"></span>
+                        </div>
+                        <p class="tc-flavor">From camera frames to captions, in real time.</p>
+                        <ul class="tc-moves">
+                            <li><span class="tc-move-name">CLIP + GPT-2</span><strong>0.7668</strong><small>CIDEr score</small></li>
+                            <li><span class="tc-move-name">Live detection</span><strong>&lt;1 s</strong><small>camera to dashboard</small></li>
+                        </ul>
+                        <footer class="tc-foot"><span>Illus. RK-01</span><span>03/04 &#9733;</span></footer>
+                        <span class="tc-holo" aria-hidden="true"></span>
+                    </div>
+                    <div class="tc-face tc-back">
+                        <h3>Computer Vision &amp; Multimodal</h3>
+                        <p>Real-time detection pipelines from camera to dashboard, multimodal models that pair vision encoders with language decoders, and efficient inference on edge and mobile devices.</p>
+                        <p class="tc-proof">CLIP + GPT-2 captioning: CIDEr 0.7668, ahead of pretrained BLIP.</p>
+                        <ul class="tc-tags"><li>YOLOv8</li><li>CLIP</li><li>PyTorch</li><li>TF Lite</li></ul>
+                        <a href="#projects">See the work</a>
+                    </div>
+                </div>
+            </article>
+            <article class="tc tc--grass" data-image="images/charizard.webp"  tabindex="0" aria-label="Full-Stack AI Products service card. Hover, focus or tap to flip.">
+                <div class="tc-inner">
+                    <div class="tc-face tc-front">
+                        <header class="tc-head">
+                            <span class="tc-stage">SERVICE</span>
+                            <h2 class="tc-name">Full-Stack AI Products</h2>
+                            <span class="tc-type" aria-hidden="true"><i class="fa-solid fa-layer-group"></i></span>
+                        </header>
+                        <div class="tc-art" aria-hidden="true">
+                            <span class="tc-orb"></span>
+                            <i class="fa-solid fa-layer-group tc-emblem"></i>
+                            <span class="tc-sparks"></span>
+                        </div>
+                        <p class="tc-flavor">A model is a feature; a product is what ships.</p>
+                        <ul class="tc-moves">
+                            <li><span class="tc-move-name">HuskySwap app</span><strong>13</strong><small>table Postgres schema</small></li>
+                            <li><span class="tc-move-name">Test suite</span><strong>30</strong><small>security &amp; E2E tests</small></li>
+                        </ul>
+                        <footer class="tc-foot"><span>Illus. RK-01</span><span>04/04 &#9733;</span></footer>
+                        <span class="tc-holo" aria-hidden="true"></span>
+                    </div>
+                    <div class="tc-face tc-back">
+                        <h3>Full-Stack AI Products</h3>
+                        <p>Taking a model all the way to users: FastAPI and Flask backends, React and Next.js front ends, Postgres data models and live dashboards, so an AI feature ships as a product, not a demo.</p>
+                        <p class="tc-proof">Real-time CV platform: sub-second camera-to-dashboard latency across streams.</p>
+                        <ul class="tc-tags"><li>FastAPI</li><li>Next.js</li><li>React</li><li>PostgreSQL</li><li>Streamlit</li></ul>
+                        <a href="#projects">See the work</a>
+                    </div>
+                </div>
+            </article>
         </div>
     </div>
 </div>
@@ -270,6 +362,7 @@
 <script type="module" src="hero/hero.js"></script>
 <script type="module" src="about/about.js"></script>
 <script type="module" src="services/tubes.js"></script>
+<script type="module" src="services/cards.js"></script>
 <script type="module" src="src/threeui-islands.js"></script>
 <script type="module" src="projects/projects.js"></script>
 <script type="module" src="contact/space.js"></script>
