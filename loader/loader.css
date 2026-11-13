@@ -1,0 +1,140 @@
+/* ---------------- Preloader ----------------
+   Shown only when JavaScript runs (the inline script in <head> adds .rk-is-loading). It stays up
+   while loader/loader.js warms up every heavy part of the page (3D scenes, images, fonts, code
+   chunks), then wipes away on a slant. */
+
+.rk-loader {
+    display: none;
+}
+html.rk-is-loading,
+html.rk-is-loading body {
+    overflow: hidden;
+}
+html.rk-is-loading .rk-loader,
+html.rk-loader-exit .rk-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 22px;
+    background:
+        radial-gradient(60% 50% at 50% 46%, rgba(122, 77, 255, 0.16), transparent 70%),
+        #0a0812;
+    color: #fff;
+}
+/* faint CRT scanlines */
+.rk-loader::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 4px);
+}
+
+.rk-loader-mark {
+    position: relative;
+    font-family: "Press Start 2P", ui-monospace, monospace;
+    font-size: clamp(30px, 7vw, 72px);
+    line-height: 1;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+}
+/* the global `* { font-family }` rule would otherwise override the inherited pixel fonts */
+.rk-loader-mark *,
+.rk-loader-meta * {
+    font-family: inherit;
+}
+.rk-loader-word {
+    display: block;
+    color: rgba(255, 255, 255, 0.1);
+}
+/* the same word, revealed left to right as loading progresses */
+.rk-loader-fill {
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background: linear-gradient(90deg, #ff4fd8, #b07bff 50%, #4fe3ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    clip-path: inset(0 calc(100% - var(--rk-p, 0) * 100%) 0 0);
+    filter: drop-shadow(0 0 18px rgba(255, 79, 216, 0.35));
+}
+
+.rk-loader-meta {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    font-family: "VT323", ui-monospace, monospace;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.55);
+}
+.rk-loader-pct {
+    min-width: 4ch;
+    text-align: right;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+}
+.rk-loader-bar {
+    width: min(260px, 60vw);
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+.rk-loader-bar i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #ff4fd8, #4fe3ff);
+    transform-origin: 0 50%;
+    transform: scaleX(var(--rk-p, 0));
+}
+
+/* exit: the panel's bottom edge sweeps up on a slant */
+html.rk-loader-exit .rk-loader {
+    pointer-events: none;
+    animation: rk-loader-wipe 1s cubic-bezier(.76, 0, .24, 1) forwards;
+}
+html.rk-loader-exit .rk-loader > * {
+    animation: rk-loader-lift 0.7s cubic-bezier(.6, 0, .3, 1) forwards;
+}
+@keyframes rk-loader-wipe {
+    from { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    to   { clip-path: polygon(0 0, 100% 0, 100% -30%, 0 0); }
+}
+@keyframes rk-loader-lift {
+    to { opacity: 0; translate: 0 -40px; }
+}
+
+/* hero entrance once the loader leaves (backwards fill: nothing stays applied afterwards) */
+html.rk-loaded .rk-hero .rk-stage {
+    animation: rk-hero-rise 1.2s 0.25s cubic-bezier(.2, .8, .2, 1) backwards;
+}
+html.rk-loaded .rk-hero nav {
+    animation: rk-hero-fade 0.9s 0.55s ease-out backwards;
+}
+html.rk-loaded .rk-hero .rk-hud {
+    animation: rk-hero-fade 0.9s 0.8s ease-out backwards;
+}
+@keyframes rk-hero-rise {
+    from { opacity: 0; translate: 0 60px; scale: 0.94; }
+}
+@keyframes rk-hero-fade {
+    from { opacity: 0; translate: 0 -12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html.rk-loader-exit .rk-loader {
+        animation: rk-loader-fade 0.3s ease-out forwards;
+    }
+    html.rk-loader-exit .rk-loader > *,
+    html.rk-loaded .rk-hero .rk-stage,
+    html.rk-loaded .rk-hero nav,
+    html.rk-loaded .rk-hero .rk-hud {
+        animation: none;
+    }
+    @keyframes rk-loader-fade {
+        to { opacity: 0; }
+    }
+}

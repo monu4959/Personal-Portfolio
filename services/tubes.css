@@ -16,6 +16,11 @@
     inset: 0;
     z-index: -1;
 }
+/* during the preloader only: on screen (under the loader) so the effect draws its first frames */
+.rk-tubes.rk-warm {
+    position: fixed;
+    z-index: 9990;
+}
 .rk-tubes canvas {
     display: block;
     width: 100%;

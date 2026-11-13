@@ -1,5 +1,6 @@
 // Interactive neon tubes behind the Services section (threejs-components TubesCursor).
-// The effect bundles its own Three.js (~775 KB), so it is only fetched when the section nears the viewport.
+// The effect bundles its own Three.js (~775 KB). It starts during the preloader (loader/loader.js) so
+// the download and shader setup don't stall scrolling later; it pauses itself while off-screen.
 
 const section = document.getElementById('services');
 const canvas = document.getElementById('tubes-canvas');
@@ -49,10 +50,18 @@ async function init() {
 }
 
 if (!reducedMotion && hasWebGL()) {
-    const io = new IntersectionObserver(([entry]) => {
-        if (!entry.isIntersecting) return;
-        io.disconnect();
-        init();
-    }, { rootMargin: '400px 0px' });
-    io.observe(section);
+    // The effect only draws while its canvas is on screen, so it would compile its shaders (a
+    // 1-3 s freeze) the first time Services scrolls into view. While the preloader is up, pin the
+    // canvas to the viewport behind it so those first frames happen now, then put it back.
+    const wrap = canvas.parentElement;
+    const warm = window.rkLoad && document.documentElement.classList.contains('rk-is-loading');
+    if (warm) wrap.classList.add('rk-warm');
+    const started = init().then(() => new Promise((r) => {
+        // a few frames on screen are enough for the GPU work to finish
+        let n = 0;
+        const tick = () => (++n < 6 ? requestAnimationFrame(tick) : r());
+        requestAnimationFrame(tick);
+    }));
+    window.rkLoad && window.rkLoad.track(started, 'services tubes');
+    if (warm) window.rkLoad.done.then(() => wrap.classList.remove('rk-warm'));
 }

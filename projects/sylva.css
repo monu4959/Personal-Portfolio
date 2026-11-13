@@ -8,10 +8,15 @@
        fails (projects/projects.js makes the scene transparent in that case) */
     background: #4a4d44 url('/images/sylva-poster.webp') center bottom / cover no-repeat;
 }
-/* ThreeUI paints its wrapper and iframe solid grey; let the still image show through them */
-.rk-sylva .threeui-background,
-.rk-sylva iframe {
-    background: transparent !important;
+/* the scene's iframe (projects/sylva-scene.js); transparent so the still image shows until it draws */
+.rk-sylva-frame {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: transparent;
 }
 .rk-sylva {
     /* The scene is GPU-heavy at full resolution (it held the page near 30 fps).
@@ -27,6 +32,13 @@
     height: calc(var(--sylva-res) * 100%);
     transform: scale(calc(1 / var(--sylva-res)));
     transform-origin: 0 0;
+    /* background only: wheel events must reach the page so smooth scrolling keeps working over it */
+    pointer-events: none;
+}
+/* during the preloader only: on screen (under the loader) so the scene draws its first frames */
+.rk-sylva.rk-warm {
+    position: fixed;
+    z-index: 9990;
 }
 @media (max-width: 900px) {
     /* narrow screens already get the scene's mobile layout, and have 2-3x pixel density */

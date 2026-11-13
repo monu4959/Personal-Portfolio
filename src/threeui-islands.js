@@ -2,19 +2,14 @@
 //
 //   <div data-threeui="CrtBackground" data-props='{"variant": "..."}' style="height: 400px"></div>
 //
-// React and the component code are only downloaded when such an element exists and nears the viewport.
-// To use another ThreeUI component, add it to `threeuiComponents` in ./threeui-registry.js.
+// They mount during the preloader (loader/loader.js), so React, the component code and the scene's
+// shaders are ready before the visitor scrolls to them instead of loading mid-scroll.
 
 const islands = document.querySelectorAll('[data-threeui]');
 
 if (islands.length) {
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(async (entry) => {
-            if (!entry.isIntersecting) return;
-            io.unobserve(entry.target);
-            const { mountIsland } = await import('./threeui-mount.jsx');
-            mountIsland(entry.target);
-        });
-    }, { rootMargin: '300px 0px' });
-    islands.forEach((el) => io.observe(el));
+    const mounting = import('./threeui-mount.jsx').then(({ mountIsland }) =>
+        Promise.all([...islands].map((el) => mountIsland(el)))
+    );
+    window.rkLoad && window.rkLoad.track(mounting, 'threeui islands');
 }

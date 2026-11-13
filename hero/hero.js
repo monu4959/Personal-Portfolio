@@ -177,9 +177,11 @@ async function boot() {
     }
     if (!heroVisible) device.setActive(false);
     hero.classList.add('is-ready');
-    setTimeout(() => screen.boot(), reducedMotion ? 0 : 450);
+    // start the typewriter once the preloader has gone, so it isn't played behind it
+    const loaderGone = window.rkLoad ? window.rkLoad.done : Promise.resolve();
+    loaderGone.then(() => setTimeout(() => screen.boot(), reducedMotion ? 0 : 650));
 }
-boot();
+window.rkLoad ? window.rkLoad.track(boot(), 'hero console') : boot();
 
 // ---------- keyboard ----------
 const KEYS = {

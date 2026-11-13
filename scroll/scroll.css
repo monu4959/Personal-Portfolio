@@ -1,0 +1,48 @@
+/* ---------------- Smooth scroll + section transitions (see scroll/scroll.js) ---------------- */
+
+/* Lenis: it drives the scroll position itself, so the browser's own smoothing must be off */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+/* the section being scrolled away from darkens (opacity set per frame) */
+.rk-sec-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    background: #050409;
+    opacity: 0;
+}
+
+/* the incoming section's top edge is slanted, flattening as it reaches the top of the screen */
+html.rk-motion .rk-sec.is-entering {
+    --rk-slant: min(14vw, 170px);
+    clip-path: polygon(0 calc((1 - var(--rk-enter)) * var(--rk-slant)), 100% 0, 100% 100%, 0 100%);
+}
+/* ...and its content rises into place (not the hero: its nav holds the fixed mobile menu) */
+html.rk-motion .rk-sec:not(#header) > .container {
+    translate: 0 calc((1 - var(--rk-enter, 1)) * 90px);
+}
+
+/* fade-up reveals, staggered within each group */
+html.rk-motion .rk-reveal {
+    opacity: 0;
+}
+html.rk-motion:not(.rk-reveal-hold) .rk-reveal.is-in {
+    opacity: 1;
+    animation: rk-reveal-up 0.95s cubic-bezier(.2, .75, .2, 1) calc(var(--i, 0) * 90ms) backwards;
+}
+@keyframes rk-reveal-up {
+    from { opacity: 0; translate: 0 48px; }
+}
