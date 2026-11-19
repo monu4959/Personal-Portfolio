@@ -1,15 +1,21 @@
-// Preloader. Every heavy part of the page reports in through window.rkLoad.track(promise):
-// the hero console, the Services tubes, the Projects scene and slider (they now start during
-// loading instead of mid-scroll, which is what caused the scroll hitches). This script also
-// preloads the large images and the pixel fonts. The bar shows real progress; the loader leaves
-// when everything has settled, or after MAX_WAIT so a slow network never traps the visitor.
+// Preloader. It waits for the first screen (the hero console, which reports in through
+// window.rkLoad.track(promise), the hero background and the pixel fonts) plus the two 3D scenes
+// whose first start stalls the whole page wherever it happens: the Projects scene (~3 s on a
+// first visit, see projects/projects.js) and, on desktop, the Services tubes (services/tubes.js).
+// Behind the loader is the least visible place for that. To keep it short:
+//  - nothing heavy starts until the loading screen is on screen (rkLoad.painted);
+//  - the hero console compiles its shaders in parallel instead of blocking the page;
+//  - the rest (project slider, images further down, the tubes on phones) starts on rkLoad.idle,
+//    shortly after the page is showing, or as the visitor scrolls towards it.
+// The bar shows real progress; the loader leaves when those have settled, or after MAX_WAIT so a
+// slow network never traps the visitor.
 //
 // This must be the first module script on the page, so window.rkLoad exists before the others run.
 
 const root = document.documentElement;
 const loader = document.getElementById('rk-loader');
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const MAX_WAIT = 9000; // ms
+const MAX_WAIT = 6500; // ms
 const MIN_SHOW = reduced ? 0 : 900; // ms; long enough that the wordmark reads, not a delay
 
 const tasks = [];
@@ -17,6 +23,28 @@ const pending = new Set();
 let settled = 0;
 let finish;
 const done = new Promise((r) => (finish = r));
+// once the loading screen is actually on screen (first contentful paint): heavy setup (WebGL)
+// waits for this, so it can't hold up the first frame. Starting a 3D scene's shader compile blocks
+// the browser's graphics process, which would otherwise delay showing even an already-drawn frame.
+const painted = new Promise((r) => {
+    const fallback = () => requestAnimationFrame(() => setTimeout(r, 0));
+    setTimeout(r, 2500); // never wait long
+    try {
+        if (!PerformanceObserver.supportedEntryTypes.includes('paint')) throw 0;
+        new PerformanceObserver((list, obs) => {
+            if (list.getEntries().some((e) => e.name === 'first-contentful-paint')) { obs.disconnect(); r(); }
+        }).observe({ type: 'paint', buffered: true });
+    } catch (e) {
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fallback, { once: true });
+        else fallback();
+    }
+});
+// shortly after the loader has gone and the hero's entrance animation has played: the moment for
+// background work (building the scenes further down the page)
+const idle = done.then(() => new Promise((r) => setTimeout(() => {
+    if ('requestIdleCallback' in window) requestIdleCallback(() => r(), { timeout: 1000 });
+    else r();
+}, reduced ? 0 : 1400)));
 
 window.rkLoad = {
     /** Hold the loader until `p` settles (resolve or reject, both count as done). */
@@ -29,8 +57,12 @@ window.rkLoad = {
     },
     /** Labels of tasks still running (handy in the console if the loader seems slow). */
     pending: () => [...pending],
+    /** Resolves once the first frame (the loading screen) has been painted. */
+    painted,
     /** Resolves once the loader has started leaving (use it to start intro animations). */
-    done
+    done,
+    /** Resolves a little after that, once the page is quiet (use it to start background work). */
+    idle
 };
 
 // nothing to do if the loader isn't showing (no markup, or the <head> failsafe already hid it)
@@ -55,10 +87,8 @@ function run() {
     const fill = loader;
     const pctEl = loader.querySelector('.rk-loader-pct');
 
-    // images that are large or sit behind lazy loading
-    const images = new Set(['images/retro-bg.png', 'images/13.jpg', 'images/sylva-poster.webp']);
-    document.querySelectorAll('[data-image]').forEach((el) => images.add(el.dataset.image));
-    images.forEach((src) => window.rkLoad.track(preloadImage(src), 'image ' + src));
+    // the hero's background (everything else on the page loads as it's needed)
+    window.rkLoad.track(preloadImage('images/retro-bg.png'), 'hero background');
 
     // pixel fonts used by the hero and the loader itself
     if (document.fonts && document.fonts.load) {
@@ -107,6 +137,20 @@ function run() {
     }
     requestAnimationFrame(frame);
 }
+
+// Once the page is showing, fetch and decode the images further down (lazy-loaded) in the
+// background, so they don't load and decode mid-scroll.
+idle.then(() => {
+    const srcs = new Set();
+    document.querySelectorAll('img[loading="lazy"]').forEach((img) => srcs.add(img.currentSrc || img.src));
+    document.querySelectorAll('[data-image]').forEach((el) => srcs.add(new URL(el.dataset.image, document.baseURI).href));
+    srcs.forEach((src) => {
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = src;
+        img.decode().catch(() => {});
+    });
+});
 
 function leave() {
     root.classList.remove('rk-is-loading');

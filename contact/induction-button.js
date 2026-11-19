@@ -163,4 +163,7 @@ function enhance(btn) {
     }
 }
 
-document.querySelectorAll('[data-induction]').forEach(enhance);
+// Creating the WebGL context costs ~150 ms on the main thread, so wait until the loading screen
+// is showing (loader/loader.js) rather than delaying the first paint.
+const painted = window.rkLoad ? window.rkLoad.painted : Promise.resolve();
+painted.then(() => document.querySelectorAll('[data-induction]').forEach(enhance));

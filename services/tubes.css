@@ -16,10 +16,19 @@
     inset: 0;
     z-index: -1;
 }
-/* during the preloader only: on screen (under the loader) so the effect draws its first frames */
+/* while the effect starts up (services/tubes.js): pinned to the viewport, click-through and
+   invisible, so it compiles and draws its first frames before the visitor scrolls down. Its size is
+   pinned to the section's in tubes.js, so moving back doesn't resize the effect. */
 .rk-tubes.rk-warm {
     position: fixed;
-    z-index: 9990;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+/* behind the preloader (desktop) it draws in full: the loader covers it */
+html.rk-is-loading .rk-tubes.rk-warm-full {
+    opacity: 1;
 }
 .rk-tubes canvas {
     display: block;

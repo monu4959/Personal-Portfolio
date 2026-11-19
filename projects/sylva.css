@@ -35,10 +35,16 @@
     /* background only: wheel events must reach the page so smooth scrolling keeps working over it */
     pointer-events: none;
 }
-/* during the preloader only: on screen (under the loader) so the scene draws its first frames */
+/* while the scene starts up (projects/projects.js): pinned to the viewport but invisible, so the
+   browser runs it and it compiles and draws its first frames before the visitor scrolls down.
+   Behind the preloader it draws in full (the loader covers it): a layer at opacity 0 isn't drawn,
+   which leaves part of the start-up work for later. */
 .rk-sylva.rk-warm {
     position: fixed;
-    z-index: 9990;
+    opacity: 0;
+}
+html.rk-is-loading .rk-sylva.rk-warm {
+    opacity: 1;
 }
 @media (max-width: 900px) {
     /* narrow screens already get the scene's mobile layout, and have 2-3x pixel density */

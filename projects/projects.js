@@ -1,15 +1,33 @@
-// Mounts the project slider (React + framer-motion). It mounts during the preloader
-// (loader/loader.js) so its code is ready before the visitor scrolls down.
-const el = document.getElementById('rk-project-slider');
+const section = document.getElementById('projects');
+const idle = window.rkLoad ? window.rkLoad.idle : Promise.resolve();
 
+/** Resolves on rkLoad.idle, or earlier if the visitor heads for the Projects section first
+ *  (never while the loader is up). */
+function whenNeeded() {
+    const loaded = window.rkLoad ? window.rkLoad.done : Promise.resolve();
+    return new Promise((resolve) => {
+        idle.then(resolve);
+        if (!section) return;
+        loaded.then(() => {
+            const io = new IntersectionObserver(([e]) => {
+                if (e.isIntersecting) { io.disconnect(); resolve(); }
+            }, { rootMargin: '100% 0px' });
+            io.observe(section);
+            idle.then(() => io.disconnect());
+        });
+    });
+}
+
+// Mounts the project slider (React + framer-motion) once the page is showing; until then the
+// plain list in the markup (.pj-fallback) stands in.
+const loading = window.rkLoad && document.documentElement.classList.contains('rk-is-loading');
+const el = document.getElementById('rk-project-slider');
 if (el) {
-    const mounted = import('./slider.jsx').then(({ mountProjectSlider }) => mountProjectSlider(el));
-    window.rkLoad && window.rkLoad.track(mounted, 'project slider');
+    whenNeeded().then(() => import('./slider.jsx')).then(({ mountProjectSlider }) => mountProjectSlider(el));
 }
 
 // Render the Sylva background at reduced resolution (see projects/sylva.css). Keep the scene's
 // own frame at least 960px wide on desktop so it keeps its wide layout and full particle count.
-const section = document.getElementById('projects');
 const sylva = section?.querySelector('.rk-sylva');
 if (sylva) {
     const MIN_FRAME = 960;
@@ -30,8 +48,8 @@ if (sylva) {
 //  2. If WebGL is unavailable or the context is lost (e.g. Chrome's GPU process crashing under
 //     memory pressure), makes the scene's document transparent so the still image behind it
 //     (projects/sylva.css) shows instead of a blank grey panel.
-//  3. Pauses the scene while the Projects section is off-screen. The scene is built once, during the
-//     preloader, and kept; without this it would keep drawing while the visitor is elsewhere.
+//  3. Pauses the scene while the Projects section is off-screen. The scene is built once, shortly
+//     after the page appears, and kept; without this it would keep drawing while the visitor is elsewhere.
 //     The page sends {rkPause: true|false} (the iframe is sandboxed, so postMessage is the only way in).
 const SCENE_FPS = 30;
 function scenePatch(fps) {
@@ -67,19 +85,37 @@ function scenePatch(fps) {
 }
 const SCENE_PATCH = '<script data-rk-fps>(' + scenePatch.toString() + ')(' + SCENE_FPS + ');<\/script>';
 if (sylva) {
-    // build the scene once, during the preloader, and keep it (ThreeUI's own component deletes and
-    // rebuilds it every time the section scrolls in and out of view, which stalled scrolling).
-    // Browsers don't run off-screen iframes, so while the preloader is up the scene is pinned to the
-    // viewport behind it; it compiles and draws its first frames there instead of mid-scroll.
-    const warm = window.rkLoad && document.documentElement.classList.contains('rk-is-loading');
-    if (warm) {
-        sylva.classList.add('rk-warm');
-        window.rkLoad.done.then(() => sylva.classList.remove('rk-warm'));
-    }
-    const ready = import('./sylva-scene.js').then(({ createSylvaScene }) =>
-        createSylvaScene(sylva, { patch: SCENE_PATCH })
-    );
-    window.rkLoad && window.rkLoad.track(ready, 'sylva scene');
+    // Build the scene once and keep it (ThreeUI's own component deletes and rebuilds it every time
+    // the section scrolls in and out of view, which stalled scrolling). Browsers don't run
+    // off-screen iframes, so while it starts up the scene is pinned to the viewport, invisible
+    // (.rk-warm in projects/sylva.css): it compiles its shaders and draws its first frames there
+    // instead of mid-scroll.
+    // Unlike the rest of the page below the hero, this happens behind the preloader. On a first
+    // visit compiling the scene's shaders blocks the browser's graphics process for ~3 s (it uses
+    // Three.js r149, which can't compile in the background), freezing the whole page wherever it
+    // happens; behind the loader is the least visible place. Later visits reuse the browser's
+    // shader cache and are quick.
+    const ready = (loading ? window.rkLoad.painted : whenNeeded())
+        .then(() => import('./sylva-scene.js'))
+        .then(({ createSylvaScene }) => {
+            // skip the warm-up if the section is already on screen (it then warms up in place)
+            const r = section.getBoundingClientRect();
+            const onScreen = r.top < innerHeight && r.bottom > 0;
+            if (!onScreen) {
+                // same size as in the section, so moving back doesn't resize (and re-lay-out) the scene
+                const res = parseFloat(getComputedStyle(sylva).getPropertyValue('--sylva-res')) || 1;
+                sylva.style.width = section.clientWidth * res + 'px';
+                sylva.style.height = section.clientHeight * res + 'px';
+                sylva.classList.add('rk-warm');
+            }
+            const made = Promise.resolve().then(() => createSylvaScene(sylva, { patch: SCENE_PATCH }));
+            made.finally(() => {
+                sylva.classList.remove('rk-warm');
+                sylva.style.width = sylva.style.height = '';
+            }).catch(() => {});
+            return made;
+        });
+    if (loading) window.rkLoad.track(ready, 'projects scene');
 
     // pause it while the section is well off-screen
     let visible = false;

@@ -412,11 +412,14 @@ export function createConsole3D({ container, screen, reducedMotion, canTilt, onA
 
     // ---------- loop ----------
     let active = true;
+    let started = false;
+    let raf = 0;
     let lastVersion = -1;
     const clock = new THREE.Clock();
     function tick() {
-        requestAnimationFrame(tick);
-        if (!active) return;
+        raf = 0;
+        if (!active) return; // setActive(true) starts the loop again
+        raf = requestAnimationFrame(tick);
         const dt = Math.min(clock.getDelta(), 0.05);
         const t = clock.elapsedTime;
 
@@ -451,14 +454,26 @@ export function createConsole3D({ container, screen, reducedMotion, canTilt, onA
         }
         renderer.render(scene, camera);
     }
-    tick();
+
+    // Compile every shader before the first frame. compileAsync lets the GPU compile them in
+    // parallel (KHR_parallel_shader_compile) instead of the page freezing for ~2 s on a first visit.
+    const ready = (renderer.compileAsync ? renderer.compileAsync(scene, camera) : Promise.resolve())
+        .catch(() => {})
+        .then(() => {
+            started = true;
+            clock.getDelta();
+            tick();
+        });
 
     return {
         element: renderer.domElement,
         press: pressVisual,
+        /** resolves once the shaders are compiled and the first frame is drawn */
+        ready,
         setActive(v) {
             if (v && !active) clock.getDelta(); // drop the paused gap
             active = v;
+            if (v && started && !raf) tick();
         }
     };
 }

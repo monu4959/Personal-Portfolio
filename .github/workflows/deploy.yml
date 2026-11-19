@@ -12,7 +12,8 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  # let a deploy that has started finish (a newer push queues behind it)
+  cancel-in-progress: false
 
 jobs:
   build:

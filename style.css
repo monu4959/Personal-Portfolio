@@ -1,3 +1,36 @@
+/* pixel fonts, self-hosted (latin subset; SIL Open Font License, see public/fonts/OFL-*.txt) */
+@font-face {
+    font-family: 'Press Start 2P';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/press-start-2p-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'VT323';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/vt323-latin-400-normal.woff2') format('woff2');
+}
+
+/* icons: inline SVGs (sprite at the top of index.html) inside the <i class="fa-..."> elements,
+   sized and coloured like the icon font they replace */
+.fa-solid,
+.fa-brands {
+    display: inline-block;
+    font-style: normal;
+    line-height: 1;
+}
+.rk-svg {
+    display: inline-block;
+    height: 1em;
+    width: auto;
+    overflow: visible;
+    vertical-align: -0.125em;
+    fill: currentColor;
+}
+
 *{
     margin: 0;
     padding: 0;

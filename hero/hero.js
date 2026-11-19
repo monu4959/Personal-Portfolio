@@ -133,11 +133,10 @@ function createCssConsole() {
 }
 
 // ---------- boot ----------
+// A cheap check only: creating a test WebGL context costs ~150 ms before the first paint. If the
+// browser has WebGL but can't create a context, createConsole3D throws and the CSS console is used.
 function hasWebGL() {
-    try {
-        const c = document.createElement('canvas');
-        return !!(window.WebGLRenderingContext && (c.getContext('webgl2') || c.getContext('webgl')));
-    } catch (e) { return false; }
+    return !!window.WebGLRenderingContext;
 }
 
 async function boot() {
@@ -157,6 +156,8 @@ async function boot() {
     if (glModule) {
         try {
             const { createConsole3D } = await glModule;
+            // let the loading screen paint before the (main-thread heavy) WebGL setup
+            if (window.rkLoad) await window.rkLoad.painted;
             device = createConsole3D({
                 container: stage,
                 screen,
@@ -165,6 +166,8 @@ async function boot() {
                 onAction: act
             });
             hero.classList.add('is-webgl');
+            // hold the preloader until the console's first frame is drawn (but never for long)
+            await Promise.race([device.ready, new Promise((r) => setTimeout(r, 4000))]);
         } catch (err) {
             console.warn('RK-01: WebGL console unavailable, using CSS fallback.', err);
             stage.querySelectorAll('canvas.rk-gl').forEach((c) => c.remove());

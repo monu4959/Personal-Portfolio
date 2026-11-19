@@ -69,6 +69,10 @@
     color: #4fe3ff;
     text-shadow: 0 0 12px rgba(79, 227, 255, 0.5);
 }
+/* the icons are SVGs, which text-shadow doesn't reach */
+.rk-contact-list i svg {
+    filter: drop-shadow(0 0 12px rgba(79, 227, 255, 0.5));
+}
 .rk-contact-list a {
     color: #e8ecff;
     text-decoration: none;
