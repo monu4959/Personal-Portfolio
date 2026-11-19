@@ -26,6 +26,14 @@
 .pj-row > div {
     will-change: transform;
 }
+.pj-row.is-draggable {
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.pj-row.is-dragging {
+    cursor: grabbing;
+}
 .pj-row.is-static {
     padding: 6px 24px 14px;
     -webkit-mask-image: none;
